@@ -1,0 +1,2181 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TimeGateWay</title>
+    <link rel="icon" type="image/png" href="icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #391348;      /* Основной темный сине-фиолетовый */
+            --secondary: #721c8c;    /* Насыщенный чернильный */
+            
+            /* Цвета персонажей */
+            --moyao: #151348;        /* Чернильный демон */
+            --moyao-light: #5e3cff;  /* Свечение способностей */
+            --moyao-accent: #9d7aff; /* Лавандовый акцент */
+            
+            --gloria: #7e57c2;       /* Фиолетово-синий (Баканеко) */
+            --gloria-light: #b388ff; /* Светлый акцент */
+            
+            --william: #5e35b1;      /* Фиолетово-синий (Усагимими) */
+            --william-light: #9575cd;/* Светлый акцент */
+            
+            --alastor: #c21818;      /* Глубокий розово-красный */
+            --alastor-light: #f06262;/* Светлый акцент */
+            --overlord: #8B0000;     /* Темно-красный для оверлорда */
+            
+            --background: #f8f5ff;    /* Светло-лавандовый фон */
+            --card-bg: #ffffff;      /* Белый фон карточек */
+            --text: #2a2036;         /* Темно-фиолетовый текст */
+            --text-light: #5a5166;   /* Светлый вариант текста */
+            
+            /* Цвета статусов */
+            --alive: #4CAF50;       /* Зеленый для живых */
+            --dead: #F44336;         /* Красный для мертвых */
+            --resurrected: #9C27B0;  /* Фиолетовый для воскресших */
+            --unknown: #9E9E9E;      /* Серый для неизвестного статуса */
+            --reborn: #2196F3;       /* Синий для перерожденных */
+        }
+        .status-immortal {
+            background-color: var(--overlord);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            text-shadow: 0 0 5px rgba(139, 0, 0, 0.5);
+        }
+        
+        .status-reborn {
+            background-color: var(--reborn);
+            box-shadow: 0 2px 5px rgba(33, 150, 243, 0.3);
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--background);
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 4rem 0 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 30px rgba(21, 19, 72, 0.4);
+            z-index: 10;
+            background-size: 200% 200%;
+            animation: gradientShift 12s ease infinite;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(157, 122, 255, 0.15) 0%, transparent 30%),
+                radial-gradient(circle at 80% 70%, rgba(179, 136, 255, 0.15) 0%, transparent 30%);
+            opacity: 0.7;
+            z-index: -1;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 3.5rem;
+            letter-spacing: 2px;
+            position: relative;
+            display: inline-block;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            animation: textGlow 3s ease-in-out infinite alternate;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--moyao-light), var(--gloria-light), var(--william-light), var(--alastor-light));
+            border-radius: 4px;
+            box-shadow: 0 0 15px rgba(157, 122, 255, 0.6);
+            transition: all 0.3s ease;
+        }
+
+        
+        h2 {
+            font-size: 2.4rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 3px;
+        }
+        
+        .subtitle {
+            font-style: italic;
+            opacity: 0.9;
+            font-weight: 300;
+            font-size: 1.2rem;
+            margin-top: 1rem;
+            display: block;
+        }
+        
+        /* Мобильное меню */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 10px;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            z-index: 1001;
+            transition: transform 0.3s ease;
+        }
+        
+        .mobile-menu-toggle:hover {
+            transform: scale(1.1);
+        }
+        
+        nav {
+            background-color: var(--primary);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 15px rgba(21, 19, 72, 0.4);
+            backdrop-filter: blur(5px);
+            background-color: rgba(57, 19, 72, 0.9);
+            transition: all 0.3s ease;
+        }
+        
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            flex-wrap: wrap;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        nav li {
+            margin: 0;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 20px;
+            border-radius: 30px;
+            transition: all 0.3s;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        nav a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        nav a:hover {
+            background-color: var(--moyao-light);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(94, 60, 255, 0.4);
+        }
+        
+        nav a:hover::before {
+            left: 100%;
+        }
+        
+        /* Новая структура карточки персонажа */
+        .character-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            flex-direction: row;
+            height: auto;
+            margin-bottom: 30px;
+        }
+        
+        .character-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        
+        .character-image-container {
+            flex: 0 0 300px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .character-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Это ключевое свойство! */
+            object-position: center top; /* Центрируем по горизонтали, прижимаем к верху */
+            transition: transform 0.3s ease;
+        }
+        
+        .character-card:hover .character-image {
+            transform: scale(1.05);
+        }
+        
+        /* Стили для изображений персонажей */
+        .moaya-img {
+            background: linear-gradient(135deg, rgba(21,19,72,0.8), rgba(42,28,140,0.9));
+        }
+        
+        .gloria-img {
+            background: linear-gradient(135deg, rgba(126, 87, 194, 0.8), rgba(179, 136, 255, 0.8));
+        }
+        
+        .william-img {
+            background: linear-gradient(135deg, rgba(94, 53, 177, 0.8), rgba(149, 117, 205, 0.8));
+        }
+        
+        .alastor-img {
+            background: linear-gradient(135deg, var(--overlord), var(--alastor-light));
+        }
+        
+        .dead-img {
+            filter: grayscale(70%);
+            opacity: 0.9;
+        }
+        
+        .character-info-container {
+            flex: 1;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .character-name {
+            margin: 0 0 15px;
+            font-size: 1.8rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .moaya-name {
+            color: var(--moyao-accent);
+            text-shadow: 0 0 8px rgba(157, 122, 255, 0.5);
+        }
+        
+        .gloria-name {
+            color: var(--gloria);
+        }
+        
+        .william-name {
+            color: var(--william);
+        }
+        
+        .alastor-name {
+            color: var(--overlord);
+            text-shadow: 0 0 8px rgba(139, 0, 0, 0.3);
+        }
+        
+        .character-universe {
+            display: inline-block;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            align-self: flex-start;
+        }
+        
+        .moaya-universe {
+            background: linear-gradient(135deg, var(--moyao), var(--moyao-light));
+            box-shadow: 0 0 15px rgba(94, 60, 255, 0.4);
+        }
+        
+        .gloria-universe {
+            background: linear-gradient(135deg, var(--gloria), var(--gloria-light));
+        }
+        
+        .william-universe {
+            background: linear-gradient(135deg, var(--william), var(--william-light));
+        }
+        
+        .alastor-universe {
+            background: linear-gradient(135deg, var(--overlord), var(--alastor-light));
+            box-shadow: 0 0 15px rgba(139, 0, 0, 0.4);
+        }
+        
+        .character-description {
+            margin-bottom: 20px;
+            line-height: 1.7;
+            color: var(--text-light);
+            flex-grow: 1;
+        }
+        
+        .character-traits {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .trait {
+            background-color: #f0ebff;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            color: var(--text);
+            transition: all 0.2s;
+        }
+        
+        .trait:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .character-details {
+            margin-top: 15px;
+            font-size: 0.95rem;
+            background-color: #f9f7ff;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 3px solid var(--primary);
+        }
+        
+        .detail-row {
+            display: flex;
+            margin-bottom: 8px;
+        }
+        
+        .detail-label {
+            font-weight: bold;
+            min-width: 140px;
+            color: var(--primary);
+        }
+        
+        .abilities {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px dashed #ddd;
+        }
+        
+        .ability {
+            margin-bottom: 12px;
+            position: relative;
+            padding-left: 20px;
+        }
+        
+        .ability::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: bold;
+        }
+        
+        .ability-name {
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 5px;
+            display: block;
+        }
+        
+        .moyao-ability {
+            animation: ink-pulse 3s infinite;
+        }
+        
+        .overlord-ability {
+            animation: power-pulse 2s infinite;
+        }
+        
+        @keyframes ink-pulse {
+            0% { text-shadow: 0 0 5px var(--moyao-light); }
+            50% { text-shadow: 0 0 15px var(--moyao-accent); }
+            100% { text-shadow: 0 0 5px var(--moyao-light); }
+        }
+        
+        @keyframes power-pulse {
+            0% { text-shadow: 0 0 5px var(--overlord); }
+            50% { text-shadow: 0 0 20px var(--alastor-light); }
+            100% { text-shadow: 0 0 5px var(--overlord); }
+        }
+        
+        /* Стили для статуса персонажа */
+        .character-status {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 2;
+        }
+        
+        .status-alive {
+            background-color: var(--alive);
+        }
+        
+        .status-dead {
+            background-color: var(--dead);
+        }
+        
+        .status-resurrected {
+            background-color: var(--resurrected);
+        }
+        
+        .status-unknown {
+            background-color: var(--unknown);
+        }
+        
+        .status-reborn {
+            background-color: var(--reborn);
+        }
+        
+        .race-info {
+            background-color: #f9f7ff;
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 30px;
+            border: 1px solid #eee;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .race-info::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(157, 122, 255, 0.1) 0%, transparent 70%);
+        }
+        
+        .race-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .race-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+            border-top: 3px solid;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .race-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .race-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .race-card:hover::after {
+            opacity: 1;
+        }
+        
+        .race-moyao {
+            border-color: var(--moyao);
+        }
+        
+        .race-gloria {
+            border-color: var(--gloria);
+        }
+        
+        .race-william {
+            border-color: var(--william);
+        }
+        
+        .race-alastor {
+            border-color: var(--overlord);
+        }
+        
+        .relationships-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .relationship-card {
+            border-left: 4px solid;
+            padding-left: 15px;
+            transition: all 0.3s;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+        
+        .relationship-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .relationship-moyao {
+            border-color: var(--moyao);
+        }
+        
+        .relationship-gloria {
+            border-color: var(--gloria);
+        }
+        
+        .relationship-william {
+            border-color: var(--william);
+        }
+        
+        .relationship-alastor {
+            border-color: var(--overlord);
+        }
+        
+        .relationship-list {
+            line-height: 1.8;
+            padding-left: 20px;
+        }
+        
+        .relationship-list li {
+            margin-bottom: 8px;
+            position: relative;
+        }
+        
+        .relationship-list li::before {
+            content: '→';
+            position: absolute;
+            left: -20px;
+            color: var(--primary);
+        }
+        
+        .section {
+            margin-top: 50px;
+            padding: 30px;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            position: relative;
+        }
+        
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(157, 122, 255, 0.05) 0%, transparent 70%);
+        }
+        
+        /* Стили для таймлайна */
+        .timeline-container {
+            position: relative;
+            margin: 40px 0;
+            padding-left: 30px;
+        }
+        
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+            border-radius: 3px;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 40px;
+        }
+        
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .timeline-date {
+            position: absolute;
+            left: -30px;
+            top: 0;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            box-shadow: 0 3px 10px rgba(57, 19, 72, 0.3);
+            z-index: 2;
+            min-width: 100px;
+            text-align: center;
+        }
+        
+        .timeline-content {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            margin-left: 50px;
+            border-left: 4px solid var(--primary);
+            transition: all 0.3s ease;
+        }
+        
+        .timeline-content:hover {
+            transform: translateX(5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+        
+        .timeline-content h3 {
+            color: var(--primary);
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+        
+        .timeline-content p {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+        
+        .timeline-note {
+            background: linear-gradient(135deg, rgba(157, 122, 255, 0.05), rgba(179, 136, 255, 0.05));
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 40px;
+            border: 1px solid rgba(157, 122, 255, 0.2);
+        }
+        
+        .timeline-note h3 {
+            color: var(--primary);
+            margin-top: 20px;
+            font-size: 1.3rem;
+        }
+        
+        .timeline-note h3:first-child {
+            margin-top: 0;
+        }
+        
+        .timeline-note ul {
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .timeline-note li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+        
+        .lore-subsection {
+            margin-top: 40px;
+            padding: 25px;
+            background: linear-gradient(135deg, rgba(157, 122, 255, 0.03), rgba(179, 136, 255, 0.03));
+            border-radius: 10px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .lore-subsection h3 {
+            color: var(--primary);
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 1.6rem;
+        }
+        
+        .lore-subsection h4 {
+            color: var(--secondary);
+            margin-top: 20px;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 99;
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        
+        footer {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            text-align: center;
+            padding: 40px 0;
+            margin-top: 60px;
+            position: relative;
+        }
+        
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 10px;
+            background: linear-gradient(90deg, var(--moyao-light), var(--gloria-light), var(--william-light), var(--alastor-light));
+        }
+        
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: all 0.3s;
+        }
+        
+        .social-links a:hover {
+            transform: translateY(-3px);
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
+        
+        /* Анимации */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .character-card, .section {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+        
+        .character-card:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+        
+        .character-card:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+        
+        .character-card:nth-child(4) {
+            animation-delay: 0.3s;
+        }
+        
+        /* Стили для темных событий */
+        .dark-event {
+            background: linear-gradient(135deg, rgba(194,24,24,0.05), rgba(240,98,98,0.05));
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid var(--alastor);
+        }
+        
+        .dark-event-title {
+            color: var(--alastor);
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        /* Стили для ЛОРа */
+        .lore-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+        
+        .lore-category {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .lore-category:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+        
+        .lore-category h3 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .magic-system {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .magic-type {
+            background: #f9f7ff;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .magic-type h4 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        /* Стиль для заметок о возрасте */
+        .age-note {
+            font-style: italic;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+        
+        /* Стиль для аласторовского возраста */
+        .overlord-age {
+            color: var(--overlord);
+            font-weight: bold;
+        }
+        
+        /* Стили для загрузочного экрана */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+        
+        .loading-content {
+            text-align: center;
+            color: white;
+            max-width: 500px;
+            padding: 20px;
+        }
+        
+        .loading-logo {
+            font-size: 3rem;
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            animation: spin 1s linear infinite;
+        }
+        
+        .loading-progress {
+            width: 100%;
+            height: 4px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 2px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        .loading-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--moyao-light), var(--gloria-light));
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 2px;
+        }
+        
+        .loading-text {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-top: 10px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading-images {
+            display: none;
+        }
+    
+        /* Мобильные стили */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            h2 {
+                font-size: 2rem;
+            }
+            
+            /* Мобильное меню */
+            .mobile-menu-toggle {
+                display: block;
+            }
+            
+            nav {
+                padding: 0;
+                height: 60px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            nav ul {
+                position: fixed;
+                top: 60px;
+                left: 0;
+                right: 0;
+                background: rgba(57, 19, 72, 0.98);
+                flex-direction: column;
+                align-items: center;
+                gap: 0;
+                padding: 0;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease, padding 0.3s ease;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+                margin: 0;
+                z-index: 1000;
+            }
+            
+            nav ul.active {
+                max-height: 100vh;
+                padding: 20px 0;
+            }
+            
+            nav li {
+                width: 100%;
+                text-align: center;
+                margin: 0;
+            }
+            
+            nav a {
+                display: block;
+                width: 100%;
+                box-sizing: border-box;
+                border-radius: 0;
+                padding: 15px 20px;
+                text-align: center;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+            }
+            
+            nav a:hover {
+                background-color: var(--moyao-light);
+                transform: none;
+                box-shadow: none;
+            }
+            
+            /* Адаптация карточек персонажей */
+            .character-card {
+                flex-direction: column;
+                height: auto;
+            }
+            
+            .character-image-container {
+                flex: 0 0 auto;
+                height: 450px; /* Увеличенная высота для мобильных устройств */
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+            }
+            
+            .character-image {
+                width: auto;
+                max-width: 100%;
+                height: 100%;
+                object-fit: contain;
+                object-position: center top;
+            }
+            
+            .character-info-container {
+                padding: 20px;
+            }
+            
+            .detail-row {
+                flex-direction: column;
+            }
+            
+            .detail-label {
+                margin-bottom: 3px;
+                min-width: auto;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+            
+            .race-grid, .relationships-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            /* Уменьшаем отступы для мобильных устройств */
+            .character-card {
+                margin-bottom: 20px;
+            }
+            
+            .section {
+                margin-top: 30px;
+            }
+            
+            /* Улучшаем отображение статуса на мобильных */
+            .character-status {
+                top: 15px;
+                right: 15px;
+                font-size: 0.8rem;
+                padding: 4px 12px;
+            }
+            
+            /* Адаптивность для мобильных */
+            .magic-system {
+                grid-template-columns: 1fr;
+            }
+            
+            /* Адаптация загрузочного экрана */
+            .loading-logo {
+                font-size: 2rem;
+            }
+            
+            .loading-spinner {
+                width: 40px;
+                height: 40px;
+            }
+            
+            /* Адаптивность для таймлайна */
+            .timeline-container {
+                padding-left: 20px;
+            }
+            
+            .timeline-container::before {
+                left: 10px;
+            }
+            
+            .timeline-date {
+                left: -20px;
+                min-width: 80px;
+                font-size: 0.8rem;
+                padding: 4px 10px;
+            }
+            
+            .timeline-content {
+                margin-left: 40px;
+                padding: 20px;
+            }
+            
+            .timeline-note {
+                padding: 20px;
+            }
+            
+            .lore-subsection {
+                padding: 20px;
+            }
+        }
+        
+        /* Дополнительные адаптации для очень маленьких экранов */
+        @media (max-width: 480px) {
+            .character-image-container {
+                height: 400px; /* Чуть меньше высота для очень маленьких экранов, но все равно больше */
+            }
+            
+            .character-name {
+                font-size: 1.5rem;
+            }
+            
+            .character-description {
+                font-size: 0.95rem;
+            }
+            
+            .character-details {
+                padding: 10px;
+            }
+            
+            .trait {
+                font-size: 0.8rem;
+                padding: 4px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Загрузочный экран -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-content">
+            <div class="loading-logo">TimeGateWay</div>
+            <div class="loading-spinner"></div>
+            <div class="loading-progress">
+                <div class="loading-progress-bar" id="loadingProgressBar"></div>
+            </div>
+            <div class="loading-text" id="loadingText">Загрузка персонажей...</div>
+        </div>
+        
+        <!-- Скрытые изображения для предзагрузки -->
+        <div class="loading-images">
+            <img src="moaya_thumbnail.png" alt="Предзагрузка Мояо">
+            <img src="gloria_thumbnail.png" alt="Предзагрузка Глория">
+            <img src="william_thumbnail.png" alt="Предзагрузка Вильям">
+            <img src="alastor_thumbnail.png" alt="Предзагрузка Аластор">
+            <img src="henry_thumbnail.png" alt="Предзагрузка Генри">
+            <img src="yaroslav_thumbnail.png" alt="Предзагрузка Ярослав">
+            <img src="rast_thumbnail.png" alt="Предзагрузка Раст">
+        </div>
+    </div>
+    
+    <header>
+        <div class="container">
+            <h1>TimeGateWay</h1>
+            <span class="subtitle">Мультивселенная персонажей</span>
+        </div>
+    </header>
+    
+    <nav>
+        <button class="mobile-menu-toggle" id="mobileMenuToggle">
+            <i class="fas fa-bars"></i>
+        </button>
+        <ul id="mainMenu">
+            <li><a href="#main-characters"><i class="fas fa-users"></i> Главные герои</a></li>
+            <li><a href="#dead-characters"><i class="fas fa-skull"></i> Умершие персонажи</a></li>
+            <li><a href="#lore"><i class="fas fa-book"></i> ЛОР вселенной</a></li>
+            <li><a href="#relationships"><i class="fas fa-heart"></i> Взаимоотношения</a></li>
+        </ul>
+    </nav>
+    <main class="container">
+        <section id="main-characters" class="section">
+            <h2>Главные персонажи</h2>
+            <p>Знакомьтесь с ключевыми героями моей вселенной, каждый из которых обладает уникальной историей и способностями.</p>
+            
+            <!-- Лиза/Мояо -->
+            <div class="character-card">
+                <div class="character-status status-alive">Жив</div>
+                <div class="character-image-container moaya-img">
+                    <img src="moaya_thumbnail.png" alt="Лиза Гестант (Мояо)" class="character-image">
+                </div>
+                <div class="character-info-container">
+                    <h3 class="character-name moaya-name">Лиза Гестант Ярославовна (Мояо)</h3>
+                    <span class="character-universe moaya-universe">Инкфюжн</span>
+                    <div class="character-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Возраст:</span>
+                            <span id="moaya-age">Вычисляется...</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Дата рождения:</span>
+                            <span>10 февраля 2005 г.</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Раса:</span>
+                            <span>Инкфюжн (гибрид человека и чернильной сущности)</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Рост/Вес:</span>
+                            <span>176 см / 55 кг</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Профессия:</span>
+                            <span>Врач, модница</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Фобии:</span>
+                            <span>Никтофобия (страх темноты), Мономания (страх одиночества)</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Внешность:</span>
+                            <span>Фиолетовые волосы, красные глаза, рога, заострённые уши, низкий хвост</span>
+                        </div>
+                    </div>
+                    <p class="character-description">Чернильный демон, жертва экспериментов секретной лаборатории. Сбежала в шесть лет, жила с сестрой Глорией и Вильямом как дочь. Сейчас работает врачом - с помощью чернил может восстановить даже потерянные конечности. Модница, следит за современными тенденциями.</p>
+                    <div class="character-traits">
+                        <span class="trait">Находчивая</span>
+                        <span class="trait">Любознательная</span>
+                        <span class="trait">Заботливая</span>
+                        <span class="trait">Защищающая</span>
+                        <span class="trait">Стильная</span>
+                    </div>
+                    <div class="abilities">
+                        <div class="ability moyao-ability">
+                            <div class="ability-name">Чернильные способности:</div>
+                            <div>- Проникать сквозь материальные преграды</div>
+                            <div>- Принимать различные формы</div>
+                            <div>- Восстанавливать ткани и конечности</div>
+                            <div>- Наблюдать через "бездонные глаза"</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Глория -->
+            <div class="character-card">
+                <div class="character-status status-alive">Жив</div>
+                <div class="character-image-container gloria-img">
+                    <img src="gloria_thumbnail.png" alt="Глория Гестант Ярославовна" class="character-image">
+                </div>
+                <div class="character-info-container">
+                    <h3 class="character-name gloria-name">Глория Гестант Ярославовна</h3>
+                    <span class="character-universe gloria-universe">Добрая Баканеко</span>
+                    
+                    <div class="character-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Возраст:</span>
+                            <span id="gloria-age">Вычисляется...</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Дата рождения:</span>
+                            <span>25 августа 2006 г.</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Раса:</span>
+                            <span>Добрая версия Баканеко (кошка-оборотень, ёкай)</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Рост/Вес:</span>
+                            <span>175 см / 65 кг</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Профессия:</span>
+                            <span>Владелица сети Freddy Fazbear's Pizza, программист</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Фобии:</span>
+                            <span>Трипанофобия (боязнь уколов), Кинофобия (боязнь собак)</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Ориентация:</span>
+                            <span>Бисексуалка</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Пара:</span>
+                            <span>Аластор Акумар</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Языки:</span>
+                            <span>Русский (родной), английский, японский</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Внешность:</span>
+                            <span>Русые волосы с фиолетовыми кончиками, серо-зелёные глаза, кошачьи уши и лисий хвост</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Стиль:</span>
+                            <span>Тёплая мешковатая одежда в фиолетовых и розовых тонах</span>
+                        </div>
+                    </div>
+                    
+                    <p class="character-description">
+                        Сдержанная и невезучая баканеко-программист с кошачьими ушами и лисим хвостом, сбежавшая из секретной лаборатории вместе со своей старшей сестрой-инкфюжн Лизой (Мояо) и выросшая в семье Афтонов. Благодаря настойчивости и сверхспособностям (телекинез, телепортация) стала владелицей сети "Freddy's", добавив в меню роллы, и нашла свою главную любовь в лице Аластора Акумара.
+                    </p>
+                    
+                    <div class="character-traits">
+                        <span class="trait">Сдержанная</span>
+                        <span class="trait">Миролюбивая</span>
+                        <span class="trait">Впечатлительная</span>
+                        <span class="trait">Настойчивая</span>
+                        <span class="trait">Влюблённая</span>
+                        <span class="trait">Невезучая</span>
+                        <span class="trait">Талантливый менеджер</span>
+                        <span class="trait">Новатор</span>
+                    </div>
+                    
+                    <div class="abilities">
+                        <div class="ability">
+                            <div class="ability-name">Основные способности:</div>
+                            <div>- Телекинез</div>
+                            <div>- Перемещение во времени и пространстве</div>
+                        </div>
+                        <div class="ability">
+                            <div class="ability-name">Специальные способности:</div>
+                            <div>- Манипуляция данными (изменение, удаление, копирование информации в том числе способностей)</div>
+                            <div>- Исцеление ран (требует больших затрат сил)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Вильям Афтон -->
+            <div class="character-card">
+                <div class="character-status status-reborn">Перерожден</div>
+                <div class="character-image-container william-img">
+                    <img src="william_thumbnail.png" alt="Вильям Афтон" class="character-image">
+                </div>
+                <div class="character-info-container">
+                    <h3 class="character-name william-name">Вильям Афтон</h3>
+                    <span class="character-universe william-universe">Усагимими</span>
+                    <div class="character-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Возраст:</span>
+                            <span id="william-age">Вычисляется...</span>
+                        </div>
+                        <div class="age-note">*По документам, но выглядит на 30 лет благодаря бессмертию</div>
+                        <div class="detail-row">
+                            <span class="detail-label">Дата рождения:</span>
+                            <span>13 апреля 1943 г.</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Раса:</span>
+                            <span>Усагимими (человек с кроличьими ушами, частично киборг)</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Происхождение:</span>
+                            <span>Наполовину русский, наполовину англичанин</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Семья:</span>
+                            <span>Жена и дети погибли при загадочных обстоятельствах, имеет 2 приемные дочки</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Статус:</span>
+                            <span>Был убит другом, воскрешен чернильным демоном Мояо</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Рост/Вес:</span>
+                            <span>190 см / 75 кг</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Фобии:</span>
+                            <span>Плакофобия (боязнь могил), Дементофобия (боязнь безумия)</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Отношения:</span>
+                            <span>Пара скрыта</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Внешность:</span>
+                            <span>Чёрные волосы с пурпурными и синими оттенками, длинный хвост, зелёные глаза с гетерохромией (фиолетовый второй глаз), кроличьи робо-уши</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Наследие:</span>
+                            <span>Создал империю Freddy's, передал управление Глории, создал систему наставничества</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Мотивация:</span>
+                            <span>Искупление прошлых ошибок через создание семьи и передачу знаний</span>
+                        </div>
+                    </div>
+                    <p class="character-description">
+                        Сдержанная и невезучая баканеко-программист с кошачьими ушами и лисим хвостом, сбежавшая из секретной лаборатории вместе со своей старшей сестрой-инкфюжн Лизой (Мояо) и выросшая в семье Афтонов. 
+                        Благодаря настойчивости и сверхспособностям (телекинез, телепортация) стала владелицей сети "Freddy's", добавив в меню роллы, и нашла свою главную любовь в лице Аластора Акумара.
+                    </p>
+                    <div class="character-traits">
+                        <span class="trait">Умный</span>
+                        <span class="trait">Расчётливый</span>
+                        <span class="trait">Заботливый</span>
+                        <span class="trait">Тактичный</span>
+                        <span class="trait">Бессмертный</span>
+                        <span class="trait">Наставник</span>
+                    </div>
+                    <div class="abilities">
+                        <div class="ability">
+                            <div class="ability-name">Способности:</div>
+                            <div>- Телекинез</div>
+                            <div>- Перемещение во времени и пространстве</div>
+                            <div>- Вечное омоложение и бессмертие</div>
+                            <div>- Улучшенные кибернетические способности</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Аластор Акумар -->
+            <div class="character-card">
+                <div class="character-status status-immortal">Бессмертен</div>
+                <div class="character-image-container alastor-img">
+                    <img src="alastor_thumbnail.png" alt="Аластор Акумар" class="character-image">
+                </div>
+                <div class="character-info-container">
+                    <h3 class="character-name alastor-name">Аластор Акумар</h3>
+                    <span class="character-universe alastor-universe">Радиодемон-Оверлорд</span>
+                    <div class="character-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Возраст:</span>
+                            <span id="alastor-age" class="overlord-age">Вычисляется...</span>
+                        </div>
+                        <div class="age-note">*Оверлорд, 316 лет по человеческим меркам</div>
+                        <div class="detail-row">
+                            <span class="detail-label">Дата рождения:</span>
+                            <span>17 января 1970 г.</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Раса:</span>
+                            <span>Радиодемон (оверлорд)</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Рост/Вес:</span>
+                            <span>205 см / 70 кг</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Фобии:</span>
+                            <span>Клаустрофобия</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Пара:</span>
+                            <span>Глория Гестант</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Внешность:</span>
+                            <span>Чёрные волосы, жёлтые глаза с красными белками, небольшие рожки</span>
+                        </div>
+                    </div>
+                    <p class="character-description">Демон из ада, создавший устройство для перемещения между мирами. Владеет огромной коллекцией оружия. Спокойный и расчётливый, но в гневе страшен. Несмотря на свою демоническую природу, нашёл истинную любовь в Глории, ради которой готов на всё.</p>
+                    <div class="character-traits">
+                        <span class="trait">Спокойный</span>
+                        <span class="trait">Расчётливый</span>
+                        <span class="trait">Добрый</span>
+                        <span class="trait">Верный</span>
+                        <span class="trait">Жестокий в гневе</span>
+                    </div>
+                    <div class="abilities">
+                        <div class="ability overlord-ability">
+                            <div class="ability-name">Способности:</div>
+                            <div>- Пиромантия</div>
+                            <div>- Телепортация</div>
+                            <div>- Смена внешнего вида</div>
+                            <div>- Телекинез (малые объекты)</div>
+                            <div>- Управление тенями</div>
+                            <div>- Безграничная коллекция оружия</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Секция с мертвыми персонажами -->
+        <section id="dead-characters" class="section">
+            <h2>Умершие персонажи</h2>
+            <p>Персонажи, которые погибли в ходе событий вселенной, но оставили значительный след в истории.</p>
+            
+            <!-- Генри Эмили -->
+            <div class="character-card">
+                <div class="character-status status-dead">Мёртв</div>
+                <div class="character-image-container">
+                    <img src="henry_thumbnail.png" alt="Генри Эмили" class="character-image dead-img">
+                </div>
+                <div class="character-info-container">
+                    <h3 class="character-name">Генри Эмили</h3>
+                    <span class="character-universe">Freddy's</span>
+                    <div class="character-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Возраст:</span>
+                            <span id="henry-age">48 лет (на момент смерти)</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Дата рождения:</span>
+                            <span>15 июня 1945 г.</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Раса:</span>
+                            <span>Человек</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Причина смерти:</span>
+                            <span>Повесился в камере после разоблачения</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Дата смерти:</span>
+                            <span>15 июня 1993 г.</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Преступления:</span>
+                            <span>Убийство 5 детей и своего друга Вильяма</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Рост/Вес:</span>
+                            <span>188 см / 80 кг</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Внешность:</span>
+                            <span>Рыжие волосы, зачесанные назад, рыжая бородка, карие глаза, очки. Носил белую рубашку, оранжевый галстук, черные брюки с черно-белым клетчатым ремнём и черные ботинки.</span>
+                        </div>
+                    </div>
+                    <p class="character-description">Бывший партнёр Уильяма Афтона по бизнесу, оказавшийся серийным убийцей детей. Создавал аниматроников-убийц и скрывал свои преступления. Убил 5 детей и своего друга Вильяма. Был разоблачён, после чего совершил суицид в тюремной камере.</p>
+                    <div class="character-traits">
+                        <span class="trait">Харизматичный</span>
+                        <span class="trait">Манипулятор</span>
+                        <span class="trait">Жестокий</span>
+                        <span class="trait">Расчётливый</span>
+                        <span class="trait">Безжалостный</span>
+                    </div>
+                    <div class="abilities">
+                        <div class="ability">
+                            <div class="ability-name">Способности:</div>
+                            <div>- Гениальный инженер</div>
+                            <div>- Мастер маскировки</div>
+                            <div>- Убедительный оратор</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Ярослав Васильевич -->
+            <div class="character-card">
+                <div class="character-status status-dead">Мёртв</div>
+                <div class="character-image-container">
+                    <img src="yaroslav_thumbnail.png" alt="Ярослав Васильевич Чернобыльский" class="character-image dead-img">
+                </div>
+                <div class="character-info-container">
+                    <h3 class="character-name">Ярослав Васильевич Чернобыльский</h3>
+                    <span class="character-universe">Секретная лаборатория</span>
+                    
+                    <div class="character-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Возраст:</span>
+                            <span id="yaroslav-age">32 года (на момент смерти)</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Дата рождения:</span>
+                            <span>12 ноября 1962 г.</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Дата смерти:</span>
+                            <span>1994 г.</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Раса:</span>
+                            <span>Человек (с генетическими модификациями)</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Рост/Вес:</span>
+                            <span>185 см / 75 кг</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Фобия:</span>
+                            <span>Потеря контроля над экспериментами</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Причина смерти:</span>
+                            <span>Осознанно остался в эпицентре взрыва</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Родство:</span>
+                            <span>Отец Глории и Мояо</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Внешность:</span>
+                            <span>Светлые распущенные волосы, кроваво-красные зрачки, белый лабораторный халат, идеально отглаженные брюки</span>
+                        </div>
+                    </div>
+                    
+                    <p class="character-description">
+                        Отец Глории и Мояо — гениальный биоинженер, чьи алые зрачки стали следствием экспериментов по усилению интеллекта. Преданный собственным братом Яриком, он, умирая, не стал бороться за себя. Его последним поступком стало спасение дочери: он вытолкнул Глорию в коридор, вручив ей пропуск высшего уровня и прошептав: «Ты знаешь, куда идти». Чтобы его опасные разработки не достались брату, учёный активировал систему уничтожения лаборатории. В последнее мгновение его алый взгляд, полный любви и жертвенности, стал для Глории прощальным даром, обеспечившим ей и сестре шанс на спасение.
+                    </p>
+                    
+                    <div class="character-traits">
+                        <span class="trait">Гениальный тактик</span>
+                        <span class="trait">Самопожертвование</span>
+                        <span class="trait">Любящий отец</span>
+                        <span class="trait">Методичный перфекционист</span>
+                    </div>
+                    
+                    <div class="abilities">
+                        <div class="ability">
+                            <div class="ability-name">Способности:</div>
+                            <div>- Генетические модификации</div>
+                            <div>- Создание искусственного сознания</div>
+                            <div>- Разработка биологического оружия</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Раст Васильевич Чернобыльский -->
+            <div class="character-card">
+                <div class="character-status status-alive">Жив</div>
+                <div class="character-image-container">
+                    <img src="rast_thumbnail.png" alt="Раст Васильевич Чернобыльский" class="character-image">
+                </div>
+                <div class="character-info-container">
+                    <h3 class="character-name">Раст Васильевич Чернобыльский </h3>
+                    <span class="character-universe">Секретная лаборатория</span>
+                    <div class="character-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Возраст:</span>
+                            <span id="rast-age">Вычисляется...</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Дата рождения:</span>
+                            <span>7 июля 1965 г.</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Раса:</span>
+                            <span>Человек (в будущем мутант)</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Рост/Вес:</span>
+                            <span>190 см / 78 кг</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Фобия:</span>
+                            <span>Метатезиофобия (боязнь потерять контроль над других)</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Статус:</span>
+                            <span>Еще не встретился с Глорией в этом мире</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Внешность:</span>
+                            <span>Каштановые длинные растрёпанные волосы, противогаз на лице, светло-серый пиджак, тёмно-коричневые брюки, жёлтый галстук, мятая официальная одежда</span>
+                        </div>
+                    </div>
+                    <p class="character-description">Нарциссичный мужчина с жаждой контроля над всем. Не проявляет сочувствия к другим, руководствуясь исключительно собственной выгодой. Обладает чрезмерным сексуальным влечением. В будущем мутирует, но в текущей реальности еще не встретился с Глорией. Был вовлечён в пытки и эксперименты.</p>
+                    
+                    <div class="dark-event">
+                        <div class="dark-event-title">Прошлое воплощение</div>
+                        <div>В одной из предыдущих жизней Глории, когда ей было 4 года, Раст совершил над ней насилие и поджёг комнату 413. Это событие, известное как "Инцидент 413", оставило глубокие психологические травмы.</div>
+                    </div>
+                    
+                    <div class="character-traits">
+                        <span class="trait">Нарциссичный</span>
+                        <span class="trait">Контролирующий</span>
+                        <span class="trait">Расчётливый</span>
+                        <span class="trait">Безэмоциональный</span>
+                        <span class="trait">Опасный</span>
+                    </div>
+                    <div class="abilities">
+                        <div class="ability">
+                            <div class="ability-name">Способности:</div>
+                            <div>- Мастер убеждения и манипуляции</div>
+                            <div>- Высокий интеллект</div>
+                            <div>- Навыки проведения экспериментов</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Секция ЛОРа с объединенным содержанием -->
+        <section id="lore" class="section">
+            <h2>ЛОР вселенной</h2>
+            <p>Глубокое погружение в историю, мифологию, хронологию и законы мультивселенной TimeGateWay.</p>
+            
+            <!-- Подраздел: Хронология событий -->
+            <div class="lore-subsection">
+                <h3><i class="fas fa-timeline"></i> Хронология событий</h3>
+                <p>Историческое развитие вселенной и ключевые события в жизни персонажей.</p>
+                
+                <div class="timeline-container">
+                    <div class="timeline-item">
+                        <div class="timeline-date">3000-е годы</div>
+                        <div class="timeline-content">
+                            <h4>Побег и путешествие в прошлое</h4>
+                            <p>Глория и Мояо сбегают из лаборатории Ярослава Чернобыльского.</p>
+                            <p>Глория телепортируется в 1980-е годы, где её находит Уильям Афтон.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-date">1980-1993</div>
+                        <div class="timeline-content">
+                            <h4>Воспитание и подготовка</h4>
+                            <p>Уильям, воскрешённый как усагимими, воспитывает Глорию и Мояо как своих дочерей. Он передаёт Глории знания о бизнесе, аниматронике и управлении.</p>
+                            <p>В 19 лет Глории Уильям официально передаёт ей управление одной из пиццерий Freddy's как тест на ответственность. Глория вносит инновации из будущего: новые меню (роллы, азиатская кухня), цифровые системы, безопасность.</p>
+                            <p>Мояо помогает как врач и специалист по чернильным технологиям.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-date">1993</div>
+                        <div class="timeline-content">
+                            <h4>Разоблачение Генри</h4>
+                            <p>Уильям завершает своё расследование, Генри Эмили разоблачён и погибает. Уильям остаётся в тени, а Глория становится публичным лицом сети Freddy's.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-date">2000-3000-е</div>
+                        <div class="timeline-content">
+                            <h4>Расширение империи</h4>
+                            <p>Глория, используя знания из будущего и поддержку Уильяма и Мояо, расширяет сеть Freddy's по всему миру. Она внедряет технологии из 3000-х: голограммы, виртуальную реальность, бионика.</p>
+                            <p>Аластор Акумар становится её партнёром и любовью, помогая в управлении. Мояо открывает клинику при пиццериях, где лечит с помощью чернильных технологий.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="timeline-note">
+                    <h4>Почему Уильям передаёт пиццерию именно Глории?</h4>
+                    <ul>
+                        <li><strong>Он видит в ней продолжателя</strong> — не крови, но духа и идей</li>
+                        <li><strong>Он хочет дать ей стабильность и цель</strong> после всех потерь и травм</li>
+                        <li><strong>Он доверяет ей больше, чем кому-либо</strong>, потому что она пришла из будущего и выбрала его семью</li>
+                        <li><strong>Это его способ искупления</strong> — создать не империю страха, а империю семьи, заботы и инноваций</li>
+                    </ul>
+                    
+                    <h4>Как это меняет характер Глории:</h4>
+                    <ul>
+                        <li>Она не просто невезучая баканеко, а <strong>талантливый менеджер и новатор</strong></li>
+                        <li>Она сочетает <strong>кошачью интуицию, человеческую предприимчивость и знания из будущего</strong></li>
+                        <li>Её отношения с Уильямом — это не только отец-дочь, но и <strong>наставник-преемник, партнёры по бизнесу</strong></li>
+                        <li>Она становится <strong>мостом между мирами и эпохами</strong>, объединяя технологии будущего с бизнес-моделями прошлого</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Подраздел: Система магии -->
+            <div class="lore-subsection">
+                <h3><i class="fas fa-magic"></i> Система магии</h3>
+                <div class="magic-system">
+                    <div class="magic-type">
+                        <h4>Чернильная магия</h4>
+                        <p>Уникальная способность инкфюжнов, позволяющая манипулировать особой чернильной субстанцией, которая может принимать различные формы и свойства.</p>
+                    </div>
+                    <div class="magic-type">
+                        <h4>Демоническая энергия</h4>
+                        <p>Источник силы Оверлордов Ада, основанный на эмоциях, страданиях и душах грешников.</p>
+                    </div>
+                    <div class="magic-type">
+                        <h4>Аниматронная одержимость</h4>
+                        <p>Феномен вселенной ФНАФ, когда души умерших детей вселяются в аниматроников, наделяя их сознанием.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Подраздел: Мультивселенная -->
+            <div class="lore-subsection">
+                <h3><i class="fas fa-globe-americas"></i> Мультивселенная</h3>
+                <p>Вселенная TimeGateWay представляет собой сложную сеть взаимосвязанных миров, каждый со своими законами и особенностями:</p>
+                <ul>
+                    <li><strong>Инкфюжн-мир</strong> — мир, где технология и магия слились воедино</li>
+                    <li><strong>ФНАФ-вселенная</strong> — альтернативная реальность с ожившими аниматрониками</li>
+                    <li><strong>Ад (Хазбин Отель)</strong> — демоническое измерение, где грешники получают второй шанс</li>
+                    <li><strong>Промежуточные зоны</strong> — пространства между мирами, где возможно перемещение между измерениями</li>
+                </ul>
+            </div>
+            
+            <!-- Подраздел: Основные темы вселенной -->
+            <div class="lore-subsection">
+                <h3><i class="fas fa-palette"></i> Основные темы вселенной</h3>
+                <p>Эта вселенная объединяет персонажей с различными сверхъестественными способностями, происходящими из разных миров и реальностей. Здесь пересекаются судьбы существ из лабораторий, ада и альтернативных измерений.</p>
+                
+                <h4>Ключевые темы:</h4>
+                <ul>
+                    <li><strong>Семейные узы</strong> - сложные отношения между сестрами, отцом и приёмными дочерьми</li>
+                    <li><strong>Бизнес и технологии</strong> - развитие Freddy's под руководством Глории</li>
+                    <li><strong>Исцеление и помощь</strong> - врачебные способности Мояо и целительная магия Глории</li>
+                    <li><strong>Любовь и преданность</strong> - отношения Глории и Аластора</li>
+                    <li><strong>Преодоление прошлого</strong> - герои справляются с травмами и строят новую жизнь</li>
+                    <li><strong>Межкультурное взаимодействие</strong> - смешение русских, английских и японских элементов</li>
+                    <li><strong>Демоническая природа</strong> - баланс между силой и человечностью у Аластора</li>
+                </ul>
+                
+                <h4>Ключевые аспекты развития вселенной:</h4>
+                <ul>
+                    <li><strong>Технологический синтез:</strong> Сочетание аниматроники 80-х с технологиями 3000-х годов</li>
+                    <li><strong>Межвременное предпринимательство:</strong> Использование знаний из будущего для развития бизнеса в прошлом</li>
+                    <li><strong>Семейный бизнес:</strong> Freddy's превращается из сети пиццерий в семейную империю с элементами магии и технологий</li>
+                    <li><strong>Искупление через наследие:</strong> Уильям находит искупление не через страдания, а через передачу знаний и создание новой семьи</li>
+                    <li><strong>Гибридная реальность:</strong> Слияние человеческого, демонического и технологического миров в единую экосистему</li>
+                </ul>
+            </div>
+            
+            <!-- Подраздел: Расы в вселенной -->
+            <div class="race-info">
+                <h3><i class="fas fa-dna"></i> Расы в вселенной</h3>
+                <p>Разнообразие рас и видов, населяющих мультивселенную:</p>
+                
+                <div class="race-grid">
+                    <div class="race-card race-moyao">
+                        <h4>Инкфюжн</h4>
+                        <p>Гибрид человека и чернильной сущности. Способен изменять плотность тела и проникать сквозь материю. Чернильная форма позволяет манипулировать окружающим пространством.</p>
+                        <div>
+                            <strong>Известный представитель:</strong> Лиза Гестант
+                        </div>
+                    </div>
+                    
+                    <div class="race-card race-gloria">
+                        <h4>Баканеко</h4>
+                        <p>Кошачий оборотень японского происхождения. Добрая версия сохраняет человеческое сознание. Обладает повышенной гибкостью, ночным зрением и кошачьими рефлексами.</p>
+                        <div>
+                            <strong>Известный представитель:</strong> Глория Гестант
+                        </div>
+                    </div>
+                    
+                    <div class="race-card race-william">
+                        <h4>Усагимими</h4>
+                        <p>Гибрид человека и кролика с кибернетическими элементами. Обладает повышенным интеллектом, скоростью и слухом. Киборгизация усиливает физические возможности.</p>
+                        <div>
+                            <strong>Известный представитель:</strong> Вильям Афтон
+                        </div>
+                    </div>
+                    
+                    <div class="race-card race-alastor">
+                        <h4>Радиодемон-Оверлорд</h4>
+                        <p>Могущественный демон из ада, обладающий властью над радиоволнами и электроникой. Может манипулировать реальностью и создавать порталы между мирами.</p>
+                        <div>
+                            <strong>Известный представитель:</strong> Аластор Акумар
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Секция с отношением персонажей -->
+        <section id="relationships" class="section">
+            <h2>Отношения между персонажами</h2>
+            <p>Сложная сеть взаимоотношений, связывающая героев вселенной:</p>
+            
+            <div class="relationships-grid">
+                <div class="relationship-card relationship-moyao">
+                    <h3>Лиза (Мояо)</h3>
+                    <ul class="relationship-list">
+                        <li><strong>Глория:</strong> Младшая сестра, которую она защищает. Воссоединились после 10 лет разлуки.</li>
+                        <li><strong>Вильям:</strong> Приёмный отец, с которым жила как дочь. Уважает его и благодарна за заботу.</li>
+                        <li><strong>Аластор:</strong> Относится с уважением к его силе, признаёт его важность для сестры.</li>
+                    </ul>
+                </div>
+                
+                <div class="relationship-card relationship-gloria">
+                    <h3>Глория</h3>
+                    <ul class="relationship-list">
+                        <li><strong>Мояо:</strong> Старшая сестра, воссоединилась с ней через 10 лет. Доверяет и любит её.</li>
+                        <li><strong>Вильям:</strong> Приёмный отец и бывший владелец Freddy's. Получила от него бизнес в управление.</li>
+                        <li><strong>Аластор:</strong> Любовь всей жизни, ради которого готова на всё. Обожает его силу и преданность.</li>
+                        <li><strong>Ярик:</strong> Отец, который помог ей сбежать из лаборатории.</li>
+                    </ul>
+                </div>
+                
+                <div class="relationship-card relationship-william">
+                    <h3>Вильям</h3>
+                    <ul class="relationship-list">
+                        <li><strong>Мояо:</strong> Приёмная дочь, воскресившая его. Гордится её врачебными успехами.</li>
+                        <li><strong>Глория:</strong> Приёмная дочь и преемница в бизнесе. Доверяет ей управление Freddy's.</li>
+                        <li><strong>Аластор:</strong> Уважает его силу как демона, доволен его отношением к Глории.</li>
+                        <li><strong>Таинственная возлюбленная:</strong> Имеет скрытые романтические отношения.</li>
+                    </ul>
+                </div>
+                
+                <div class="relationship-card relationship-alastor">
+                    <h3>Аластор</h3>
+                    <ul class="relationship-list">
+                        <li><strong>Глория:</strong> Любовь всей жизни, ради которой готов на всё. Видит в ней смысл своего бессмертного существования.</li>
+                        <li><strong>Мояо:</strong> Сестра возлюбленной, относится с уважением к её способностям.</li>
+                        <li><strong>Вильям:</strong> Отец возлюбленной, уважает его мудрость и заботу о Глории.</li>
+                        <li><strong>Как демон:</strong> Использует свои силы для защиты близких, сохраняя спокойствие в обычной жизни.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <div class="footer-content">
+            <p>© 2025 Мир моих персонажей. Все персонажи являются оригинальными разработками.</p>
+            <p>Создано с любовью к альтернативным вселенным</p>
+            <div class="social-links">
+                <a href="https://t.me/GloriaRevenge" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+                <a href="https://bsky.app/profile/gloria-gestante.bsky.social" aria-label="Bluesky"><i class="fas fa-cloud"></i></a>
+                <a href="https://www.youtube.com/@gloriagestant" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                <a href="https://www.twitch.tv/gloria_gestant2024" aria-label="Twitch"><i class="fab fa-twitch"></i></a>
+            </div>
+        </div>
+    </footer>
+    
+    <div class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+    <script>
+        // Функции для расчета возраста каждого персонажа
+        function calculateAge(birthYear, birthMonth, birthDay) {
+            const birthDate = new Date(birthYear, birthMonth - 1, birthDay); // Месяцы начинаются с 0
+            const today = new Date();
+            
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const monthDiff = today.getMonth() - birthDate.getMonth();
+            
+            // Если день рождения еще не наступил в этом году, вычитаем год
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            
+            return age;
+        }
+
+        // Обновление возрастов всех персонажей
+        function updateAllAges() {
+            // Лиза/Мояо (10.02.2005)
+            const moayaAgeElement = document.getElementById('moaya-age');
+            if (moayaAgeElement) {
+                const age = calculateAge(2005, 2, 10);
+                moayaAgeElement.textContent = `${age} лет (10.02.2005)`;
+            }
+            
+            // Глория (25.08.2006)
+            const gloriaAgeElement = document.getElementById('gloria-age');
+            if (gloriaAgeElement) {
+                const age = calculateAge(2006, 8, 25);
+                gloriaAgeElement.textContent = `${age} лет (25.08.2006)`;
+            }
+            
+            // Вильям Афтон (13.04.1943)
+            const williamAgeElement = document.getElementById('william-age');
+            if (williamAgeElement) {
+                const age = calculateAge(1943, 4, 13);
+                williamAgeElement.textContent = `${age}+ лет (13.04.1943)`;
+            }
+            
+            // Аластор Акумар (17.01.1970) - фиксированный возраст 316 лет
+            const alastorAgeElement = document.getElementById('alastor-age');
+            if (alastorAgeElement) {
+                alastorAgeElement.textContent = `316 лет (17.01.1970)`;
+            }
+            
+            // Раст Васильевич (07.07.1965)
+            const rastAgeElement = document.getElementById('rast-age');
+            if (rastAgeElement) {
+                const age = calculateAge(1965, 7, 7);
+                rastAgeElement.textContent = `${age} лет (7 июля 1965)`;
+            }
+            
+            // Генри Эмили (15.06.1945) - расчет возраста на момент смерти
+            const henryAgeElement = document.getElementById('henry-age');
+            if (henryAgeElement) {
+                // На момент смерти в 1993 году
+                const ageAtDeath = 1993 - 1945;
+                henryAgeElement.textContent = `${ageAtDeath} лет (на момент смерти)`;
+            }
+            
+            // Ярослав Васильевич (12.11.1962) - расчет возраста на момент смерти
+            const yaroslavAgeElement = document.getElementById('yaroslav-age');
+            if (yaroslavAgeElement) {
+                // На момент смерти в 1994 году
+                const ageAtDeath = 1994 - 1962;
+                yaroslavAgeElement.textContent = `${ageAtDeath} года (на момент смерти)`;
+            }
+        }
+
+        // Система предзагрузки изображений
+        function preloadImages() {
+            const imageUrls = [
+                'moaya_thumbnail.png',
+                'gloria_thumbnail.png', 
+                'william_thumbnail.png',
+                'alastor_thumbnail.png',
+                'henry_thumbnail.png',
+                'yaroslav_thumbnail.png',
+                'rast_thumbnail.png'
+            ];
+            
+            let loadedCount = 0;
+            const totalImages = imageUrls.length;
+            const progressBar = document.getElementById('loadingProgressBar');
+            const loadingText = document.getElementById('loadingText');
+            
+            // Функция обновления прогресса
+            function updateProgress() {
+                loadedCount++;
+                const percent = Math.round((loadedCount / totalImages) * 100);
+                progressBar.style.width = `${percent}%`;
+                loadingText.textContent = `Загрузка изображений: ${loadedCount}/${totalImages} (${percent}%)`;
+                
+                // Если все изображения загружены, скрываем загрузочный экран
+                if (loadedCount === totalImages) {
+                    setTimeout(() => {
+                        document.getElementById('loadingScreen').style.opacity = '0';
+                        document.getElementById('loadingScreen').style.visibility = 'hidden';
+                        
+                        // Показываем контент страницы с анимацией
+                        document.body.style.overflow = 'auto';
+                        animateOnLoad();
+                    }, 500);
+                }
+            }
+            
+            // Предзагружаем каждое изображение
+            imageUrls.forEach(url => {
+                const img = new Image();
+                img.src = url;
+                img.onload = updateProgress;
+                img.onerror = updateProgress; // Учитываем и ошибки загрузки
+            });
+        }
+
+        // Обновление возраста при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            updateAllAges();
+            
+            // Начинаем предзагрузку изображений
+            preloadImages();
+            
+            // Мобильное меню
+            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+            const mainMenu = document.getElementById('mainMenu');
+            
+            mobileMenuToggle.addEventListener('click', function() {
+                mainMenu.classList.toggle('active');
+                this.classList.toggle('active');
+                
+                // Меняем иконку при открытии/закрытии
+                if (mainMenu.classList.contains('active')) {
+                    this.innerHTML = '<i class="fas fa-times"></i>';
+                } else {
+                    this.innerHTML = '<i class="fas fa-bars"></i>';
+                }
+            });
+            
+            // Закрываем меню при клике на пункт (для мобильных)
+            document.querySelectorAll('#mainMenu a').forEach(link => {
+                link.addEventListener('click', function() {
+                    if (window.innerWidth <= 768) {
+                        mainMenu.classList.remove('active');
+                        mobileMenuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+                    }
+                });
+            });
+            
+            // Кнопка "Наверх"
+            const backToTopButton = document.getElementById('backToTop');
+            
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    backToTopButton.classList.add('visible');
+                } else {
+                    backToTopButton.classList.remove('visible');
+                }
+            });
+            
+            backToTopButton.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            
+            // Плавная прокрутка для всех ссылок с якорями
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80, // Учитываем высоту навигации
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // Блокируем прокрутку во время загрузки
+            document.body.style.overflow = 'hidden';
+        });
+        
+        // Анимация при загрузке
+        const animateOnLoad = () => {
+            const elements = document.querySelectorAll('.character-card, .section');
+            elements.forEach((el, index) => {
+                setTimeout(() => {
+                    el.style.opacity = 1;
+                    el.style.transform = 'translateY(0)';
+                }, 100 * index);
+            });
+        };
+    </script>
+</body>
+</html>
