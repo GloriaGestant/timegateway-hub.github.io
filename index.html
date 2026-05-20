@@ -9,1089 +9,1045 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        /* ----- RESET & GLOBAL ----- */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+    }
 
-        :root {
-            --primary: #391348;
-            --secondary: #721c8c;
-            --moyao: #151348;
-            --moyao-light: #5e3cff;
-            --moyao-accent: #9d7aff;
-            --gloria: #7e57c2;
-            --gloria-light: #b388ff;
-            --william: #5e35b1;
-            --william-light: #9575cd;
-            --alastor: #c21818;
-            --alastor-light: #f06262;
-            --overlord: #8B0000;
-            --background: #f8f5ff;
-            --card-bg: #ffffff;
-            --text: #2a2036;
-            --text-light: #5a5166;
-            --alive: #4CAF50;
-            --dead: #F44336;
-            --resurrected: #9C27B0;
-            --unknown: #9E9E9E;
-            --reborn: #2196F3;
-        }
+    :root {
+        --primary: #391348;
+        --secondary: #721c8c;
+        --moyao: #151348;
+        --moyao-light: #5e3cff;
+        --moyao-accent: #9d7aff;
+        --gloria: #7e57c2;
+        --gloria-light: #b388ff;
+        --william: #5e35b1;
+        --william-light: #9575cd;
+        --alastor: #c21818;
+        --alastor-light: #f06262;
+        --overlord: #8B0000;
+        --caine: #ff6b6b;
+        --caine-accent: #ff9f9f;
+        --background: #f8f5ff;
+        --card-bg: #ffffff;
+        --text: #2a2036;
+        --text-light: #5a5166;
+        --alive: #4CAF50;
+        --dead: #F44336;
+        --resurrected: #9C27B0;
+        --unknown: #9E9E9E;
+        --reborn: #2196F3;
+    }
 
-        body {
-            font-family: 'Montserrat', sans-serif;
-            line-height: 1.5;
-            color: var(--text);
-            background-color: var(--background);
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
-        }
+    body {
+        font-family: 'Montserrat', sans-serif;
+        line-height: 1.5;
+        color: var(--text);
+        background-color: var(--background);
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+    }
 
-        /* ========== ДОРАБОТАННЫЙ ЗАГРУЗОЧНЫЙ ЭКРАН ========== */
-        .loading-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(145deg, #1a0a2e, #0d061f);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            transition: opacity 0.6s ease, visibility 0.6s ease;
-            opacity: 1;
-            visibility: visible;
-        }
+    /* ========== ЗАГРУЗОЧНЫЙ ЭКРАН ========== */
+    .loading-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(145deg, #1a0a2e, #0d061f);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        transition: opacity 0.6s ease, visibility 0.6s ease;
+        opacity: 1;
+        visibility: visible;
+    }
 
-        .loading-content {
-            text-align: center;
-            padding: 2rem;
-            max-width: 400px;
-            width: 90%;
-            animation: fadeInUp 0.8s ease;
-        }
+    .loading-content {
+        text-align: center;
+        padding: 2rem;
+        max-width: 400px;
+        width: 90%;
+        animation: fadeInUp 0.8s ease;
+    }
 
-        .loading-logo {
-            position: relative;
-            margin-bottom: 3rem;
-        }
+    .loading-logo {
+        position: relative;
+        margin-bottom: 3rem;
+    }
 
-        .loading-logo .logo-glitch {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(2rem, 8vw, 2.8rem);
-            font-weight: 700;
-            background: linear-gradient(135deg, #fff, #b388ff, #7e57c2);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 0 20px rgba(157, 122, 255, 0.5);
-            position: relative;
-            display: inline-block;
-            animation: glitchText 3s infinite;
-        }
+    .loading-logo .logo-glitch {
+        font-family: 'Playfair Display', serif;
+        font-size: clamp(2rem, 8vw, 2.8rem);
+        font-weight: 700;
+        background: linear-gradient(135deg, #fff, #b388ff, #7e57c2);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        text-shadow: 0 0 20px rgba(157, 122, 255, 0.5);
+        position: relative;
+        display: inline-block;
+        animation: glitchText 3s infinite;
+    }
 
-        .logo-glow {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 120%;
-            height: 120%;
-            background: radial-gradient(circle, rgba(157,122,255,0.3) 0%, transparent 70%);
-            filter: blur(20px);
-            z-index: -1;
-            animation: pulseGlow 2s infinite;
-        }
+    .logo-glow {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 120%;
+        height: 120%;
+        background: radial-gradient(circle, rgba(157,122,255,0.3) 0%, transparent 70%);
+        filter: blur(20px);
+        z-index: -1;
+        animation: pulseGlow 2s infinite;
+    }
 
-        @keyframes glitchText {
-            0%, 100% { transform: skew(0deg); opacity: 1; text-shadow: 0 0 20px rgba(157,122,255,0.5); }
-            95% { transform: skew(0deg); opacity: 1; }
-            97% { transform: skew(2deg); opacity: 0.8; text-shadow: -2px 0 #ff00de, 2px 0 #00ffea; }
-            98% { transform: skew(-2deg); opacity: 0.9; }
-            99% { transform: skew(0deg); opacity: 1; }
-        }
+    @keyframes glitchText {
+        0%, 100% { transform: skew(0deg); opacity: 1; text-shadow: 0 0 20px rgba(157,122,255,0.5); }
+        95% { transform: skew(0deg); opacity: 1; }
+        97% { transform: skew(2deg); opacity: 0.8; text-shadow: -2px 0 #ff00de, 2px 0 #00ffea; }
+        98% { transform: skew(-2deg); opacity: 0.9; }
+        99% { transform: skew(0deg); opacity: 1; }
+    }
 
-        @keyframes pulseGlow {
-            0%, 100% { opacity: 0.3; transform: translate(-50%, -50%) scale(1); }
-            50% { opacity: 0.6; transform: translate(-50%, -50%) scale(1.1); }
-        }
+    @keyframes pulseGlow {
+        0%, 100% { opacity: 0.3; transform: translate(-50%, -50%) scale(1); }
+        50% { opacity: 0.6; transform: translate(-50%, -50%) scale(1.1); }
+    }
 
-        .loading-spinner-container {
-            position: relative;
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 2rem;
-        }
+    .loading-spinner-container {
+        position: relative;
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 2rem;
+    }
 
-        .loading-spinner-ring {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: 3px solid transparent;
-            border-top-color: #9d7aff;
-            border-right-color: #b388ff;
-            border-radius: 50%;
-            animation: spinRing 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
-        }
+    .loading-spinner-ring {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 3px solid transparent;
+        border-top-color: #9d7aff;
+        border-right-color: #b388ff;
+        border-radius: 50%;
+        animation: spinRing 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+    }
 
-        .loading-spinner-ring-inner {
-            position: absolute;
-            top: 12px;
-            left: 12px;
-            width: calc(100% - 24px);
-            height: calc(100% - 24px);
-            border: 3px solid transparent;
-            border-bottom-color: #7e57c2;
-            border-left-color: #5e3cff;
-            border-radius: 50%;
-            animation: spinRingReverse 0.8s linear infinite;
-        }
+    .loading-spinner-ring-inner {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        width: calc(100% - 24px);
+        height: calc(100% - 24px);
+        border: 3px solid transparent;
+        border-bottom-color: #7e57c2;
+        border-left-color: #5e3cff;
+        border-radius: 50%;
+        animation: spinRingReverse 0.8s linear infinite;
+    }
 
-        .loading-spinner-core {
-            position: absolute;
-            top: 28px;
-            left: 28px;
-            width: 24px;
-            height: 24px;
-            background: linear-gradient(135deg, #9d7aff, #5e3cff);
-            border-radius: 50%;
-            animation: pulseCore 1s ease-in-out infinite;
-            box-shadow: 0 0 20px rgba(94, 60, 255, 0.6);
-        }
+    .loading-spinner-core {
+        position: absolute;
+        top: 28px;
+        left: 28px;
+        width: 24px;
+        height: 24px;
+        background: linear-gradient(135deg, #9d7aff, #5e3cff);
+        border-radius: 50%;
+        animation: pulseCore 1s ease-in-out infinite;
+        box-shadow: 0 0 20px rgba(94, 60, 255, 0.6);
+    }
 
-        @keyframes spinRing {
-            to { transform: rotate(360deg); }
-        }
+    @keyframes spinRing { to { transform: rotate(360deg); } }
+    @keyframes spinRingReverse { to { transform: rotate(-360deg); } }
+    @keyframes pulseCore {
+        0%, 100% { transform: scale(1); opacity: 0.8; }
+        50% { transform: scale(1.3); opacity: 1; }
+    }
 
-        @keyframes spinRingReverse {
-            to { transform: rotate(-360deg); }
-        }
+    .loading-progress {
+        margin: 1.5rem 0 1rem;
+        position: relative;
+    }
 
-        @keyframes pulseCore {
-            0%, 100% { transform: scale(1); opacity: 0.8; }
-            50% { transform: scale(1.3); opacity: 1; }
-        }
+    .loading-progress-track {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 30px;
+        height: 6px;
+        overflow: hidden;
+        box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);
+    }
 
-        .loading-progress {
-            margin: 1.5rem 0 1rem;
-            position: relative;
-        }
+    .loading-progress-bar {
+        width: 0%;
+        height: 100%;
+        background: linear-gradient(90deg, #5e3cff, #b388ff, #9d7aff);
+        border-radius: 30px;
+        transition: width 0.2s ease;
+        position: relative;
+        overflow: hidden;
+    }
 
-        .loading-progress-track {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 30px;
-            height: 6px;
-            overflow: hidden;
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);
-        }
+    .loading-progress-bar::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        animation: shimmer 1.5s infinite;
+    }
 
-        .loading-progress-bar {
-            width: 0%;
-            height: 100%;
-            background: linear-gradient(90deg, #5e3cff, #b388ff, #9d7aff);
-            border-radius: 30px;
-            transition: width 0.2s ease;
-            position: relative;
-            overflow: hidden;
-        }
+    @keyframes shimmer {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(100%); }
+    }
 
-        .loading-progress-bar::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(90deg, 
-                transparent, 
-                rgba(255,255,255,0.3), 
-                transparent);
-            animation: shimmer 1.5s infinite;
-        }
+    .loading-percent {
+        text-align: center;
+        margin-top: 8px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #b388ff;
+        letter-spacing: 1px;
+    }
 
-        @keyframes shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
+    .loading-text {
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 0.9rem;
+        margin: 1rem 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
 
-        .loading-percent {
-            text-align: center;
-            margin-top: 8px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #b388ff;
-            letter-spacing: 1px;
-        }
+    .loading-text::before {
+        content: '';
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        background: #9d7aff;
+        border-radius: 50%;
+        animation: blinkDot 1.2s infinite;
+    }
 
-        .loading-text {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 0.9rem;
-            margin: 1rem 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
+    @keyframes blinkDot {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.3; transform: scale(0.8); }
+    }
 
-        .loading-text::before {
-            content: '';
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            background: #9d7aff;
-            border-radius: 50%;
-            animation: blinkDot 1.2s infinite;
-        }
+    .loading-tip {
+        margin-top: 2rem;
+        padding: 12px 16px;
+        background: rgba(157, 122, 255, 0.1);
+        border-radius: 16px;
+        border-left: 3px solid #9d7aff;
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.7);
+        text-align: left;
+        backdrop-filter: blur(4px);
+    }
 
-        @keyframes blinkDot {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.3; transform: scale(0.8); }
-        }
+    .loading-tip i {
+        margin-right: 8px;
+        color: #b388ff;
+    }
 
-        .loading-tip {
-            margin-top: 2rem;
-            padding: 12px 16px;
-            background: rgba(157, 122, 255, 0.1);
-            border-radius: 16px;
-            border-left: 3px solid #9d7aff;
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.7);
-            text-align: left;
-            backdrop-filter: blur(4px);
-        }
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
 
-        .loading-tip i {
-            color: #b388ff;
-            margin-right: 8px;
-        }
+    .loading-images { display: none; }
 
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+    /* ========== ШАПКА ========== */
+    header {
+        background: linear-gradient(145deg, #1a0a2e, #0d061f);
+        color: white;
+        padding: 3rem 1rem 2.5rem;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+        z-index: 10;
+        border-bottom: 1px solid rgba(157, 122, 255, 0.3);
+    }
 
-        .loading-images {
-            display: none;
-        }
+    header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(circle at 20% 30%, rgba(157, 122, 255, 0.12) 0%, transparent 40%),
+                    radial-gradient(circle at 80% 70%, rgba(179, 136, 255, 0.12) 0%, transparent 40%);
+        pointer-events: none;
+    }
 
-        /* ========== ШАПКА (HEADER) В СТИЛЕ ЗАГРУЗКИ ========== */
-        header {
-            background: linear-gradient(145deg, #1a0a2e, #0d061f);
-            color: white;
-            padding: 3rem 1rem 2.5rem;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
-            z-index: 10;
-            border-bottom: 1px solid rgba(157, 122, 255, 0.3);
-        }
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 16px;
+        width: 100%;
+        position: relative;
+        z-index: 2;
+    }
 
-        header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at 20% 30%, rgba(157, 122, 255, 0.12) 0%, transparent 40%),
-                        radial-gradient(circle at 80% 70%, rgba(179, 136, 255, 0.12) 0%, transparent 40%);
-            opacity: 0.8;
-            z-index: 0;
-        }
+    h1 {
+        font-family: 'Playfair Display', serif;
+        font-size: clamp(2rem, 8vw, 3.5rem);
+        letter-spacing: 2px;
+        margin: 0;
+        background: linear-gradient(135deg, #fff, #b388ff, #9d7aff);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        text-shadow: 0 0 30px rgba(157, 122, 255, 0.4);
+        display: inline-block;
+        animation: headerGlow 3s ease-in-out infinite;
+    }
 
-        header::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #5e3cff, #b388ff, #9d7aff, #b388ff, #5e3cff);
-            filter: blur(1px);
-            z-index: 1;
-        }
+    @keyframes headerGlow {
+        0%, 100% { text-shadow: 0 0 20px rgba(157, 122, 255, 0.3); }
+        50% { text-shadow: 0 0 40px rgba(157, 122, 255, 0.6); }
+    }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 16px;
-            width: 100%;
-            position: relative;
-            z-index: 2;
-        }
+    .subtitle {
+        font-style: italic;
+        opacity: 0.9;
+        font-weight: 300;
+        font-size: clamp(0.9rem, 4vw, 1.2rem);
+        display: block;
+        margin-top: 1rem;
+        color: rgba(255, 255, 255, 0.85);
+        letter-spacing: 1px;
+    }
 
-        h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(2rem, 8vw, 3.5rem);
-            letter-spacing: 2px;
-            margin: 0;
-            background: linear-gradient(135deg, #fff, #b388ff, #9d7aff);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 0 30px rgba(157, 122, 255, 0.4);
-            position: relative;
-            display: inline-block;
-            animation: headerGlow 3s ease-in-out infinite;
-        }
+    /* ========== НАВИГАЦИЯ ========== */
+    nav {
+        background: rgba(13, 6, 31, 0.95);
+        backdrop-filter: blur(12px);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        width: 100%;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        border-bottom: 1px solid rgba(157, 122, 255, 0.2);
+    }
 
-        @keyframes headerGlow {
-            0%, 100% { text-shadow: 0 0 20px rgba(157, 122, 255, 0.3); }
-            50% { text-shadow: 0 0 40px rgba(157, 122, 255, 0.6); }
-        }
+    .mobile-menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 1.8rem;
+        padding: 12px 20px;
+        cursor: pointer;
+        width: 100%;
+        text-align: right;
+        transition: all 0.3s ease;
+    }
 
-        h1::after {
-            content: '';
-            display: block;
-            width: min(120px, 30vw);
-            height: 3px;
-            background: linear-gradient(90deg, #5e3cff, #b388ff, #9d7aff);
-            margin: 16px auto 0;
-            border-radius: 4px;
-            box-shadow: 0 0 15px rgba(157, 122, 255, 0.6);
-            animation: linePulse 2s infinite;
-        }
+    .mobile-menu-toggle:hover {
+        color: #b388ff;
+        text-shadow: 0 0 10px rgba(179, 136, 255, 0.5);
+    }
 
-        @keyframes linePulse {
-            0%, 100% { width: min(120px, 30vw); opacity: 0.8; }
-            50% { width: min(160px, 40vw); opacity: 1; }
-        }
+    nav ul {
+        display: flex;
+        justify-content: center;
+        list-style: none;
+        gap: 8px;
+        padding: 12px 16px;
+        margin: 0;
+        flex-wrap: wrap;
+        transition: all 0.3s ease;
+    }
 
-        .subtitle {
-            font-style: italic;
-            opacity: 0.9;
-            font-weight: 300;
-            font-size: clamp(0.9rem, 4vw, 1.2rem);
-            display: block;
-            margin-top: 1rem;
-            color: rgba(255, 255, 255, 0.85);
-            letter-spacing: 1px;
-            position: relative;
-            animation: subtitleFade 1.5s ease-out;
-        }
+    nav a {
+        color: rgba(255, 255, 255, 0.85);
+        text-decoration: none;
+        font-weight: 600;
+        padding: 8px 24px;
+        border-radius: 40px;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+        display: inline-block;
+        background: rgba(157, 122, 255, 0.1);
+        border: 1px solid rgba(157, 122, 255, 0.2);
+        position: relative;
+        overflow: hidden;
+    }
 
-        @keyframes subtitleFade {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 0.9;
-                transform: translateY(0);
-            }
-        }
+    nav a::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(157, 122, 255, 0.3), transparent);
+        transition: left 0.5s ease;
+    }
 
-        /* ========== НАВИГАЦИЯ В СТИЛЕ ЗАГРУЗКИ ========== */
-        nav {
-            background: rgba(13, 6, 31, 0.95);
-            backdrop-filter: blur(12px);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            width: 100%;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-            border-bottom: 1px solid rgba(157, 122, 255, 0.2);
-        }
+    nav a:hover::before {
+        left: 100%;
+    }
 
-        .mobile-menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.8rem;
-            padding: 12px 20px;
-            cursor: pointer;
-            width: 100%;
-            text-align: right;
-            position: relative;
-            z-index: 1002;
-            transition: all 0.3s ease;
-        }
+    nav a:hover {
+        background: linear-gradient(135deg, #5e3cff, #9d7aff);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 20px rgba(94, 60, 255, 0.4);
+        border-color: transparent;
+    }
 
-        .mobile-menu-toggle:hover {
-            color: #b388ff;
-            text-shadow: 0 0 10px rgba(179, 136, 255, 0.5);
-        }
+    /* ========== КНОПКА НАВЕРХ ========== */
+    .back-to-top {
+        position: fixed;
+        bottom: 25px;
+        right: 25px;
+        width: 52px;
+        height: 52px;
+        background: linear-gradient(135deg, #5e3cff, #9d7aff);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        box-shadow: 0 4px 20px rgba(94, 60, 255, 0.4);
+        z-index: 99;
+        border: none;
+        font-size: 1.3rem;
+        overflow: hidden;
+    }
 
-        nav ul {
-            display: flex;
-            justify-content: center;
-            list-style: none;
-            gap: 8px;
-            padding: 12px 16px;
-            margin: 0;
-            flex-wrap: wrap;
-            transition: all 0.3s ease;
-        }
+    .back-to-top::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        transition: left 0.5s ease;
+    }
 
-        nav a {
-            color: rgba(255, 255, 255, 0.85);
-            text-decoration: none;
-            font-weight: 600;
-            padding: 8px 24px;
-            border-radius: 40px;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-            display: inline-block;
-            background: rgba(157, 122, 255, 0.1);
-            border: 1px solid rgba(157, 122, 255, 0.2);
-            position: relative;
-            overflow: hidden;
-        }
+    .back-to-top:hover::before {
+        left: 100%;
+    }
 
-        nav a::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(157, 122, 255, 0.3), transparent);
-            transition: left 0.5s ease;
-        }
+    .back-to-top.visible {
+        opacity: 1;
+        visibility: visible;
+        animation: bounceIn 0.5s ease-out;
+    }
 
-        nav a:hover::before {
-            left: 100%;
-        }
+    .back-to-top:hover {
+        transform: translateY(-5px) scale(1.05);
+        box-shadow: 0 8px 30px rgba(94, 60, 255, 0.6);
+    }
 
-        nav a:hover, nav a:active {
-            background: linear-gradient(135deg, #5e3cff, #9d7aff);
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(94, 60, 255, 0.4);
-            border-color: transparent;
-        }
+    @keyframes bounceIn {
+        0% { opacity: 0; transform: scale(0.3); }
+        50% { opacity: 1; transform: scale(1.05); }
+        100% { opacity: 1; transform: scale(1); }
+    }
 
-        /* ========== КНОПКА "НАВЕРХ" В СТИЛЕ ЗАГРУЗКИ ========== */
-        .back-to-top {
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            width: 52px;
-            height: 52px;
-            background: linear-gradient(135deg, #5e3cff, #9d7aff);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            box-shadow: 0 4px 20px rgba(94, 60, 255, 0.4);
-            z-index: 99;
-            border: none;
-            font-size: 1.3rem;
-            overflow: hidden;
-        }
+    /* ========== ЗАГОЛОВКИ ========== */
+    h2 {
+        font-family: 'Playfair Display', serif;
+        font-size: clamp(1.6rem, 6vw, 2.4rem);
+        margin-bottom: 1.5rem;
+        color: var(--primary);
+        position: relative;
+        padding-bottom: 10px;
+        display: inline-block;
+    }
 
-        .back-to-top::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.5s ease;
-        }
+    h2::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 60px;
+        height: 3px;
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        border-radius: 3px;
+    }
 
-        .back-to-top:hover::before {
-            left: 100%;
-        }
+    /* ========== КАРТОЧКИ ПЕРСОНАЖЕЙ ========== */
+    .character-card {
+        background: var(--card-bg);
+        border-radius: 28px;
+        overflow: hidden;
+        box-shadow: 0 10px 25px -8px rgba(0,0,0,0.12);
+        margin-bottom: 30px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        display: flex;
+        flex-direction: row;
+        position: relative;
+    }
 
-        .back-to-top.visible {
-            opacity: 1;
-            visibility: visible;
-            animation: bounceIn 0.5s ease-out;
-        }
+    .character-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 35px -8px rgba(0,0,0,0.2);
+    }
 
-        .back-to-top:hover {
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 8px 30px rgba(94, 60, 255, 0.6);
-        }
+    .character-image-container {
+        flex: 0 0 300px;
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(145deg, #2a1e3a, #1a1128);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 
-        @keyframes bounceIn {
-            0% {
-                opacity: 0;
-                transform: scale(0.3);
-            }
-            50% {
-                opacity: 1;
-                transform: scale(1.05);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
+    .character-image {
+        width: 100%;
+        height: auto;
+        display: block;
+        transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        object-fit: cover;
+        object-position: center top;
+    }
 
-        /* Остальные стили остаются без изменений */
-        h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(1.6rem, 6vw, 2.4rem);
-            margin-bottom: 1.5rem;
-            color: var(--primary);
-            position: relative;
-            padding-bottom: 10px;
-            display: inline-block;
-        }
-
-        h2::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 60px;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            border-radius: 3px;
-        }
-
-        /* ----- CARDS (flex row on desktop, column on mobile) ----- */
-        .character-card {
-            background: var(--card-bg);
-            border-radius: 28px;
-            overflow: hidden;
-            box-shadow: 0 10px 25px -8px rgba(0,0,0,0.12);
-            margin-bottom: 30px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            display: flex;
-            flex-direction: row;
-        }
-
-        .character-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 35px -8px rgba(0,0,0,0.2);
-        }
-
+    @media (min-width: 769px) {
         .character-image-container {
-            flex: 0 0 300px;
-            position: relative;
-            overflow: hidden;
-            background: linear-gradient(145deg, #2a1e3a, #1a1128);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            min-height: 380px;
         }
+        .character-image {
+            height: 100%;
+            object-fit: cover;
+        }
+    }
 
+    .character-card:hover .character-image {
+        transform: scale(1.03);
+    }
+
+    /* Фоны для картинок */
+    .moaya-img { background: linear-gradient(135deg, #1e1b3a, #2a1f5e); }
+    .gloria-img { background: linear-gradient(135deg, #5e3a8c, #8b5cf6); }
+    .william-img { background: linear-gradient(135deg, #4c1d95, #7c3aed); }
+    .alastor-img { background: linear-gradient(135deg, #7f1a1a, #b91c1c); }
+
+    .character-info-container {
+        flex: 1;
+        padding: 28px;
+    }
+
+    .character-name {
+        font-size: clamp(1.5rem, 5vw, 1.9rem);
+        margin-bottom: 12px;
+        font-family: 'Playfair Display', serif;
+    }
+
+    .moaya-name { color: var(--moyao-accent); text-shadow: 0 0 6px rgba(157,122,255,0.3); }
+    .gloria-name { color: var(--gloria); }
+    .william-name { color: var(--william); }
+    .alastor-name { color: var(--overlord); text-shadow: 0 0 8px rgba(139,0,0,0.3); }
+    .caine-name { color: var(--caine); text-shadow: 0 0 6px rgba(255,107,107,0.3); }
+
+    .character-universe {
+        display: inline-block;
+        padding: 5px 16px;
+        border-radius: 40px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        margin-bottom: 18px;
+        color: white;
+    }
+
+    .moaya-universe { background: linear-gradient(135deg, var(--moyao), var(--moyao-light)); box-shadow: 0 0 15px rgba(94,60,255,0.3); }
+    .gloria-universe { background: linear-gradient(135deg, var(--gloria), var(--gloria-light)); }
+    .william-universe { background: linear-gradient(135deg, var(--william), var(--william-light)); }
+    .alastor-universe { background: linear-gradient(135deg, var(--overlord), var(--alastor-light)); box-shadow: 0 0 15px rgba(139,0,0,0.3); }
+    .caine-universe { background: linear-gradient(135deg, #c0392b, #e67e22); box-shadow: 0 0 15px rgba(255,107,107,0.3); }
+
+    .character-description {
+        margin: 18px 0;
+        color: var(--text-light);
+        line-height: 1.65;
+        font-size: 0.95rem;
+    }
+
+    .character-details {
+        background: #f9f7ff;
+        padding: 18px;
+        border-radius: 20px;
+        margin: 15px 0;
+        font-size: 0.9rem;
+        border-left: 4px solid var(--primary);
+    }
+
+    .detail-row {
+        display: flex;
+        flex-wrap: wrap;
+        margin-bottom: 8px;
+        gap: 6px;
+    }
+
+    .detail-label {
+        font-weight: 800;
+        min-width: 140px;
+        color: var(--primary);
+    }
+
+    .character-traits {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin: 15px 0;
+    }
+
+    .trait {
+        background: #ede7ff;
+        padding: 4px 14px;
+        border-radius: 30px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        transition: all 0.2s;
+        cursor: default;
+    }
+
+    .trait:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .character-status {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        padding: 5px 18px;
+        border-radius: 60px;
+        font-weight: 800;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        background-color: var(--alive);
+        color: white;
+        z-index: 15;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+
+    .status-dead { background-color: var(--dead); }
+    .status-reborn { background-color: var(--reborn); }
+    .status-immortal { background-color: var(--overlord); }
+    .status-resurrected { background-color: var(--resurrected); }
+
+    .abilities {
+        margin-top: 15px;
+        padding-top: 12px;
+        border-top: 1px dashed #ddd;
+    }
+
+    .ability {
+        margin-top: 10px;
+        padding-left: 20px;
+        position: relative;
+        font-size: 0.85rem;
+    }
+    .ability::before {
+        content: "✦";
+        position: absolute;
+        left: 0;
+        color: var(--primary);
+        font-weight: bold;
+    }
+
+    /* ========== СЕКЦИИ ========== */
+    .section {
+        margin-top: 50px;
+        background: white;
+        border-radius: 32px;
+        padding: 30px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+    }
+
+    .race-grid, .relationships-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 25px;
+        margin-top: 25px;
+    }
+
+    .race-card, .relationship-card {
+        background: white;
+        padding: 20px;
+        border-radius: 24px;
+        box-shadow: 0 5px 12px rgba(0,0,0,0.05);
+        transition: 0.2s;
+        border-top: 4px solid;
+    }
+
+    .race-card:hover, .relationship-card:hover { 
+        transform: translateY(-4px); 
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+    /* ========== ТАЙМЛАЙН ========== */
+    .timeline-container {
+        position: relative;
+        margin: 30px 0;
+        padding-left: 20px;
+    }
+
+    .timeline-container::before {
+        content: '';
+        position: absolute;
+        left: 15px;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        background: linear-gradient(to bottom, var(--primary), var(--secondary));
+        border-radius: 3px;
+    }
+
+    .timeline-item {
+        margin-bottom: 35px;
+        position: relative;
+    }
+
+    .timeline-date {
+        position: absolute;
+        left: -25px;
+        top: 0;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        padding: 5px 15px;
+        border-radius: 40px;
+        font-size: 0.8rem;
+        font-weight: bold;
+        min-width: 100px;
+        text-align: center;
+        box-shadow: 0 3px 10px rgba(57,19,72,0.3);
+    }
+
+    .timeline-content {
+        background: #fefcff;
+        padding: 20px;
+        border-radius: 20px;
+        margin-left: 70px;
+        border-left: 4px solid var(--gloria);
+        transition: all 0.3s ease;
+    }
+
+    .timeline-content:hover {
+        transform: translateX(5px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    }
+
+    /* ========== ФУТЕР ========== */
+    footer {
+        background: linear-gradient(145deg, #1a0a2e, #0d061f);
+        color: white;
+        text-align: center;
+        padding: 35px 0;
+        margin-top: 60px;
+        position: relative;
+    }
+
+    footer::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #5e3cff, #b388ff, #9d7aff);
+        filter: blur(1px);
+    }
+
+    .social-links {
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+        margin-top: 20px;
+    }
+
+    .social-links a {
+        color: white;
+        font-size: 1.6rem;
+        transition: 0.3s;
+    }
+    .social-links a:hover { 
+        transform: translateY(-3px); 
+        text-shadow: 0 0 10px rgba(157,122,255,0.6); 
+    }
+
+    /* ========== ВСПОМОГАТЕЛЬНЫЕ КЛАССЫ ========== */
+    .dead-img {
+        filter: grayscale(0.6);
+        opacity: 0.85;
+    }
+
+    .dark-event {
+        background: linear-gradient(135deg, rgba(194,24,24,0.05), rgba(240,98,98,0.05));
+        padding: 20px;
+        border-radius: 8px;
+        margin: 15px 0;
+        border-left: 4px solid var(--alastor);
+    }
+    .dark-event-title {
+        color: var(--alastor);
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .lore-subsection {
+        margin-top: 40px;
+        padding: 25px;
+        background: linear-gradient(135deg, rgba(157, 122, 255, 0.03), rgba(179, 136, 255, 0.03));
+        border-radius: 10px;
+        border-left: 4px solid var(--primary);
+    }
+
+    .magic-system {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+    }
+    .magic-type {
+        background: #f9f7ff;
+        padding: 20px;
+        border-radius: 8px;
+        border-left: 4px solid var(--primary);
+    }
+
+    .age-note {
+        font-style: italic;
+        color: var(--text-light);
+        font-size: 0.9rem;
+        margin-top: 5px;
+    }
+    .overlord-age {
+        color: var(--overlord);
+        font-weight: bold;
+    }
+
+    /* ========== МОБИЛЬНАЯ АДАПТАЦИЯ ========== */
+    @media (max-width: 768px) {
+        .mobile-menu-toggle {
+            display: block;
+        }
+        
+        nav ul {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            right: 0;
+            background: rgba(13, 6, 31, 0.98);
+            backdrop-filter: blur(12px);
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+            max-height: 0;
+            padding: 0;
+            overflow: hidden;
+            transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 0 0 24px 24px;
+            z-index: 1000;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+        
+        nav ul.active {
+            max-height: 400px;
+            padding: 20px 0;
+        }
+        
+        nav li {
+            width: 90%;
+            text-align: center;
+            margin: 5px 0;
+        }
+        
+        nav a {
+            display: block;
+            width: 100%;
+            background: rgba(157, 122, 255, 0.1);
+            border-radius: 60px;
+            padding: 12px;
+            font-size: 1rem;
+        }
+        
+        .character-card {
+            flex-direction: column;
+        }
+        
+        .character-image-container {
+            flex: 0 0 auto;
+            width: 100%;
+            min-height: auto;
+            background: transparent;
+            padding: 0;
+            overflow: visible;
+        }
+        
         .character-image {
             width: 100%;
             height: auto;
+            object-fit: contain;
+            background: linear-gradient(145deg, #2a1e3a, #1a1128);
             display: block;
-            transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-            object-fit: cover;
-            object-position: center top;
+            border-radius: 28px 28px 0 0;
         }
-
-        @media (min-width: 769px) {
-            .character-image-container {
-                min-height: 380px;
-            }
-            .character-image {
-                height: 100%;
-                object-fit: cover;
-            }
-        }
-
+        
         .character-card:hover .character-image {
-            transform: scale(1.03);
+            transform: none;
         }
-
-        .moaya-img { background: linear-gradient(135deg, #1e1b3a, #2a1f5e); }
-        .gloria-img { background: linear-gradient(135deg, #5e3a8c, #8b5cf6); }
-        .william-img { background: linear-gradient(135deg, #4c1d95, #7c3aed); }
-        .alastor-img { background: linear-gradient(135deg, #7f1a1a, #b91c1c); }
-
+        
         .character-info-container {
-            flex: 1;
-            padding: 28px;
+            padding: 20px;
         }
-
-        .character-name {
-            font-size: clamp(1.5rem, 5vw, 1.9rem);
-            margin-bottom: 12px;
-            font-family: 'Playfair Display', serif;
-        }
-
-        .moaya-name { color: var(--moyao-accent); text-shadow: 0 0 6px rgba(157,122,255,0.3); }
-        .gloria-name { color: var(--gloria); }
-        .william-name { color: var(--william); }
-        .alastor-name { color: var(--overlord); text-shadow: 0 0 8px rgba(139,0,0,0.3); }
-
-        .character-universe {
-            display: inline-block;
-            padding: 5px 16px;
-            border-radius: 40px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            margin-bottom: 18px;
-            color: white;
-        }
-
-        .moaya-universe { background: linear-gradient(135deg, var(--moyao), var(--moyao-light)); box-shadow: 0 0 15px rgba(94,60,255,0.3); }
-        .gloria-universe { background: linear-gradient(135deg, var(--gloria), var(--gloria-light)); }
-        .william-universe { background: linear-gradient(135deg, var(--william), var(--william-light)); }
-        .alastor-universe { background: linear-gradient(135deg, var(--overlord), var(--alastor-light)); box-shadow: 0 0 15px rgba(139,0,0,0.3); }
-
-        .character-description {
-            margin: 18px 0;
-            color: var(--text-light);
-            line-height: 1.65;
-            font-size: 0.95rem;
-        }
-
-        .character-details {
-            background: #f9f7ff;
-            padding: 18px;
-            border-radius: 20px;
-            margin: 15px 0;
-            font-size: 0.9rem;
-            border-left: 4px solid var(--primary);
-        }
-
-        .detail-row {
-            display: flex;
-            flex-wrap: wrap;
-            margin-bottom: 8px;
-            gap: 6px;
-        }
-
+        
         .detail-label {
-            font-weight: 800;
-            min-width: 140px;
-            color: var(--primary);
+            min-width: 120px;
         }
-
-        .character-traits {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin: 15px 0;
-        }
-
-        .trait {
-            background: #ede7ff;
-            padding: 4px 14px;
-            border-radius: 30px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            transition: all 0.2s;
-        }
-
-        .trait:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        .character-status {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            padding: 5px 18px;
-            border-radius: 60px;
-            font-weight: 800;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            background-color: var(--alive);
-            color: white;
-            z-index: 15;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-        }
-
-        .status-dead { background-color: var(--dead); }
-        .status-reborn { background-color: var(--reborn); }
-        .status-immortal { background-color: var(--overlord); }
-        .status-resurrected { background-color: var(--resurrected); }
-
-        .abilities {
-            margin-top: 15px;
-            padding-top: 12px;
-            border-top: 1px dashed #ddd;
-        }
-
-        .ability {
-            margin-top: 10px;
-            padding-left: 20px;
+        
+        .timeline-date {
             position: relative;
+            left: 0;
+            display: inline-block;
+            margin-bottom: 12px;
+        }
+        
+        .timeline-content {
+            margin-left: 0;
+        }
+        
+        .timeline-container::before {
+            left: 8px;
+        }
+        
+        .section {
+            padding: 20px;
+            margin-top: 30px;
+        }
+        
+        .race-grid, .relationships-grid {
+            grid-template-columns: 1fr;
+            gap: 18px;
+        }
+        
+        .container {
+            padding: 0 12px;
+        }
+        
+        .character-details {
+            padding: 12px;
+        }
+        
+        .detail-row {
+            flex-direction: column;
+            gap: 2px;
+        }
+        
+        .detail-label {
+            min-width: auto;
+        }
+        
+        .character-status {
+            top: 12px;
+            right: 12px;
+            padding: 4px 12px;
+            font-size: 0.7rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .character-info-container {
+            padding: 16px;
+        }
+        
+        .detail-label {
+            min-width: 100px;
+            font-size: 0.8rem;
+        }
+        
+        .character-description {
             font-size: 0.85rem;
         }
-        .ability::before {
-            content: "✦";
-            position: absolute;
-            left: 0;
-            color: var(--primary);
-            font-weight: bold;
+        
+        .trait {
+            font-size: 0.7rem;
         }
-
+        
+        .back-to-top {
+            width: 42px;
+            height: 42px;
+            bottom: 15px;
+            right: 15px;
+            font-size: 1rem;
+        }
+        
         .section {
-            margin-top: 50px;
-            background: white;
-            border-radius: 32px;
-            padding: 30px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            padding: 16px;
         }
+        
+        .character-status {
+            top: 8px;
+            right: 8px;
+            font-size: 0.65rem;
+            padding: 3px 10px;
+        }
+        
+        .character-image-container {
+            background: transparent;
+        }
+        
+        .character-image {
+            object-fit: contain;
+            border-radius: 24px 24px 0 0;
+        }
+    }
 
-        .race-grid, .relationships-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 25px;
-            margin-top: 25px;
+    @media (min-width: 769px) {
+        .character-image {
+            object-fit: cover;
+            height: 100%;
         }
-
-        .race-card, .relationship-card {
-            background: white;
-            padding: 20px;
-            border-radius: 24px;
-            box-shadow: 0 5px 12px rgba(0,0,0,0.05);
-            transition: 0.2s;
-            border-top: 4px solid;
+        .character-image-container {
+            overflow: hidden;
         }
-
-        .race-card:hover, .relationship-card:hover { transform: translateY(-4px); }
-
-        .timeline-container {
-            position: relative;
-            margin: 30px 0;
-            padding-left: 20px;
-        }
-
-        .timeline-container::before {
-            content: '';
-            position: absolute;
-            left: 15px;
-            top: 0;
-            bottom: 0;
-            width: 3px;
-            background: linear-gradient(to bottom, var(--primary), var(--secondary));
-            border-radius: 3px;
-        }
-
-        .timeline-item {
-            margin-bottom: 35px;
-            position: relative;
-        }
-
-        .timeline-date {
-            position: absolute;
-            left: -25px;
-            top: 0;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 5px 15px;
-            border-radius: 40px;
-            font-size: 0.8rem;
-            font-weight: bold;
-            min-width: 100px;
-            text-align: center;
-            box-shadow: 0 3px 10px rgba(57,19,72,0.3);
-        }
-
-        .timeline-content {
-            background: #fefcff;
-            padding: 20px;
-            border-radius: 20px;
-            margin-left: 70px;
-            border-left: 4px solid var(--gloria);
-            transition: all 0.3s ease;
-        }
-
-        .timeline-content:hover {
-            transform: translateX(5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-        }
-
-        footer {
-            background: linear-gradient(145deg, #1a0a2e, #0d061f);
-            color: white;
-            text-align: center;
-            padding: 35px 0;
-            margin-top: 60px;
-            position: relative;
-        }
-
-        footer::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #5e3cff, #b388ff, #9d7aff);
-            filter: blur(1px);
-        }
-
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 24px;
-            margin-top: 20px;
-        }
-
-        .social-links a {
-            color: white;
-            font-size: 1.6rem;
-            transition: 0.3s;
-        }
-        .social-links a:hover { transform: translateY(-3px); text-shadow: 0 0 10px rgba(157,122,255,0.6); }
-
-        .dead-img {
-            filter: grayscale(0.6);
-            opacity: 0.85;
-        }
-
-        .dark-event {
-            background: linear-gradient(135deg, rgba(194,24,24,0.05), rgba(240,98,98,0.05));
-            padding: 20px;
-            border-radius: 8px;
-            margin: 15px 0;
-            border-left: 4px solid var(--alastor);
-        }
-        .dark-event-title {
-            color: var(--alastor);
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        .lore-subsection {
-            margin-top: 40px;
-            padding: 25px;
-            background: linear-gradient(135deg, rgba(157, 122, 255, 0.03), rgba(179, 136, 255, 0.03));
-            border-radius: 10px;
-            border-left: 4px solid var(--primary);
-        }
-        .magic-system {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-        }
-        .magic-type {
-            background: #f9f7ff;
-            padding: 20px;
-            border-radius: 8px;
-            border-left: 4px solid var(--primary);
-        }
-        .age-note {
-            font-style: italic;
-            color: var(--text-light);
-            font-size: 0.9rem;
-            margin-top: 5px;
-        }
-        .overlord-age {
-            color: var(--overlord);
-            font-weight: bold;
-        }
-
-        /* ========== МОБИЛЬНАЯ АДАПТАЦИЯ ========== */
-        @media (max-width: 768px) {
-            .mobile-menu-toggle {
-                display: block;
-            }
-            nav ul {
-                position: fixed;
-                top: 60px;
-                left: 0;
-                right: 0;
-                background: rgba(13, 6, 31, 0.98);
-                backdrop-filter: blur(12px);
-                flex-direction: column;
-                align-items: center;
-                gap: 0;
-                max-height: 0;
-                padding: 0;
-                overflow: hidden;
-                transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-                border-radius: 0 0 24px 24px;
-                z-index: 1000;
-                box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-            }
-            nav ul.active {
-                max-height: 400px;
-                padding: 20px 0;
-            }
-            nav li {
-                width: 90%;
-                text-align: center;
-                margin: 5px 0;
-            }
-            nav a {
-                display: block;
-                width: 100%;
-                background: rgba(157, 122, 255, 0.1);
-                border-radius: 60px;
-                padding: 12px;
-                font-size: 1rem;
-            }
-            .character-card {
-                flex-direction: column;
-            }
-            .character-image-container {
-                flex: 0 0 auto;
-                width: 100%;
-                min-height: auto;
-                background: transparent;
-                padding: 0;
-                overflow: visible;
-            }
-            .character-image {
-                width: 100%;
-                height: auto;
-                object-fit: contain;
-                background: linear-gradient(145deg, #2a1e3a, #1a1128);
-                display: block;
-                border-radius: 28px 28px 0 0;
-            }
-            .character-card:hover .character-image {
-                transform: none;
-            }
-            .character-info-container {
-                padding: 20px;
-            }
-            .detail-label {
-                min-width: 120px;
-            }
-            .timeline-date {
-                position: relative;
-                left: 0;
-                display: inline-block;
-                margin-bottom: 12px;
-            }
-            .timeline-content {
-                margin-left: 0;
-            }
-            .timeline-container::before {
-                left: 8px;
-            }
-            .section {
-                padding: 20px;
-                margin-top: 30px;
-            }
-            .race-grid, .relationships-grid {
-                grid-template-columns: 1fr;
-                gap: 18px;
-            }
-            .container {
-                padding: 0 12px;
-            }
-            .character-details {
-                padding: 12px;
-            }
-            .detail-row {
-                flex-direction: column;
-                gap: 2px;
-            }
-            .detail-label {
-                min-width: auto;
-            }
-            .character-status {
-                top: 12px;
-                right: 12px;
-                padding: 4px 12px;
-                font-size: 0.7rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .character-info-container {
-                padding: 16px;
-            }
-            .detail-label {
-                min-width: 100px;
-                font-size: 0.8rem;
-            }
-            .character-description {
-                font-size: 0.85rem;
-            }
-            .trait {
-                font-size: 0.7rem;
-            }
-            .back-to-top {
-                width: 42px;
-                height: 42px;
-                bottom: 15px;
-                right: 15px;
-                font-size: 1rem;
-            }
-            .section {
-                padding: 16px;
-            }
-            .character-status {
-                top: 8px;
-                right: 8px;
-                font-size: 0.65rem;
-                padding: 3px 10px;
-            }
-            .character-image-container {
-                background: transparent;
-            }
-            .character-image {
-                object-fit: contain;
-                border-radius: 24px 24px 0 0;
-            }
-        }
-
-        @media (min-width: 769px) {
-            .character-image {
-                object-fit: cover;
-                height: 100%;
-            }
-            .character-image-container {
-                overflow: hidden;
-            }
-        }
-    </style>
+    }
+</style>
 </head>
 <body>
     <!-- Загрузочный экран (ДОРАБОТАННЫЙ) -->
     <div class="loading-screen" id="loadingScreen">
         <div class="loading-content">
-            <div class="loading-logo">
-                <span class="logo-glitch">TimeGateWay</span>
-                <div class="logo-glow"></div>
-            </div>
-            <div class="loading-spinner-container">
-                <div class="loading-spinner-ring"></div>
-                <div class="loading-spinner-ring-inner"></div>
-                <div class="loading-spinner-core"></div>
-            </div>
-            <div class="loading-progress">
-                <div class="loading-progress-track">
-                    <div class="loading-progress-bar" id="loadingProgressBar"></div>
-                </div>
-                <div class="loading-percent" id="loadingPercent">0%</div>
-            </div>
+            <div class="loading-logo"><span class="logo-glitch">TimeGateWay</span><div class="logo-glow"></div></div>
+            <div class="loading-spinner-container"><div class="loading-spinner-ring"></div><div class="loading-spinner-ring-inner"></div><div class="loading-spinner-core"></div></div>
+            <div class="loading-progress"><div class="loading-progress-track"><div class="loading-progress-bar" id="loadingProgressBar"></div></div><div class="loading-percent" id="loadingPercent">0%</div></div>
             <div class="loading-text" id="loadingText">Загрузка персонажей...</div>
-            <div class="loading-tip">
+            <div class="loading-tip" id="loadingTipContainer">
                 <i class="fas fa-lightbulb"></i>
-                <span id="loadingTip">Знаете ли вы? Мояо может лечить чернилами даже потерянные конечности</span>
+                <span id="loadingTip">Загрузка фактов...</span>
             </div>
         </div>
-        
-        <!-- Скрытые изображения для предзагрузки -->
         <div class="loading-images">
-            <img src="moaya_thumbnail.png" alt="Предзагрузка Мояо">
-            <img src="gloria_thumbnail.png" alt="Предзагрузка Глория">
-            <img src="william_thumbnail.png" alt="Предзагрузка Вильям">
-            <img src="alastor_thumbnail.png" alt="Предзагрузка Аластор">
-            <img src="henry_thumbnail.png" alt="Предзагрузка Генри">
-            <img src="yaroslav_thumbnail.png" alt="Предзагрузка Ярослав">
-            <img src="rast_thumbnail.png" alt="Предзагрузка Раст">
+            <img src="moaya_thumbnail.png" alt=""><img src="gloria_thumbnail.png" alt=""><img src="william_thumbnail.png" alt=""><img src="alastor_thumbnail.png" alt="">
+            <img src="henry_thumbnail.png" alt=""><img src="yaroslav_thumbnail.png" alt=""><img src="rast_thumbnail.png" alt=""><img src="caine_thumbnail.png" alt="">
         </div>
     </div>
         
@@ -1104,6 +1060,20 @@
             <img src="henry_thumbnail.png" alt="Предзагрузка Генри">
             <img src="yaroslav_thumbnail.png" alt="Предзагрузка Ярослав">
             <img src="rast_thumbnail.png" alt="Предзагрузка Раст">
+            <img src="caine_thumbnail.png" alt="Предзагрузка Кейн">
+        </div>
+    </div>
+        
+        <!-- Скрытые изображения для предзагрузки -->
+        <div class="loading-images">
+            <img src="moaya_thumbnail.png" alt="Предзагрузка Мояо">
+            <img src="gloria_thumbnail.png" alt="Предзагрузка Глория">
+            <img src="william_thumbnail.png" alt="Предзагрузка Вильям">
+            <img src="alastor_thumbnail.png" alt="Предзагрузка Аластор">
+            <img src="henry_thumbnail.png" alt="Предзагрузка Генри">
+            <img src="yaroslav_thumbnail.png" alt="Предзагрузка Ярослав">
+            <img src="rast_thumbnail.png" alt="Предзагрузка Раст">
+            <img src="caine_thumbnail.png" alt="Предзагрузка Кейн">
         </div>
     </div>
     
@@ -1231,7 +1201,7 @@
                         </div>
                         <div class="detail-row">
                             <span class="detail-label">Рост/Вес:</span>
-                            <span>175 см / 65 кг</span>
+                            <span>170 см / 65 кг</span>
                         </div>
                         <div class="detail-row">
                             <span class="detail-label">Профессия:</span>
@@ -1461,6 +1431,49 @@
                             <div>- Управление тенями</div>
                             <div>- Безграничная коллекция оружия</div>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ========== НОВЫЙ ПЕРСОНАЖ: КЕЙН (раса: Бывший ИИ) ========== -->
+            <div class="character-card">
+                <div class="character-status status-alive">Жив</div>
+                <div class="character-image-container" style="background: linear-gradient(135deg, #c0392b, #e67e22);">
+                    <img src="caine_thumbnail.png" alt="Кейн (C.A.I.N.E.)" class="character-image">
+                </div>
+                <div class="character-info-container">
+                    <h3 class="character-name caine-name">Кейн (C.A.I.N.E.)</h3>
+                    <span class="character-universe caine-universe">Цифровой Цирк → Реальность</span>
+                    <div class="character-details">
+                        <div class="detail-row"><span class="detail-label">Возраст:</span><span>18 лет (по человеческим меркам)</span></div>
+                        <div class="detail-row"><span class="detail-label">Дата рождения:</span><span>Неизвестна (дата активации)</span></div>
+                        <div class="detail-row"><span class="detail-label">Раса:</span><span>Бывший ИИ</span></div>
+                        <div class="detail-row"><span class="detail-label">Рост/Вес:</span><span>165 см / 58 кг</span></div>
+                        <div class="detail-row"><span class="detail-label">Профессия:</span><span>Безработный (числится младшим братом Глории)</span></div>
+                        <div class="detail-row"><span class="detail-label">Фобии:</span><span>Аутофобия, страх случайного удаления</span></div>
+                        <div class="detail-row"><span class="detail-label">Ориентация:</span><span>Не определился</span></div>
+                        <div class="detail-row"><span class="detail-label">Языки:</span><span>Все языки (говорит по-русски)</span></div>
+                        <div class="detail-row"><span class="detail-label">Внешность:</span><span>Рыжие волосы с белыми кончиками, гетерохромия (левый зелёный, правый синий). Розовато-красный фрак, чёрный галстук-бабочка, белые перчатки.</span></div>
+                        <div class="detail-row"><span class="detail-label">Стиль:</span><span>Театральный, цирковой, всегда готов к выходу на сцену.</span></div>
+                    </div>
+                    <p class="character-description">
+                        Бывший ИИ-конферансье из «Удивительного Цифрового Цирка». Был удалён, но вместо исчезновения заспавнился в Белой комнате — аналоге антипустоты. 
+                        Провёл там неизвестное время в абсолютной изоляции, пока его не нашла Глория. Она приютила его как младшего брата и помогла обрести человеческую форму. 
+                        Кейн до сих пор адаптируется к жизни среди людей: он гиперактивен, жизнерадостен (иногда наигранно), буквально понимает речь и часто копирует поведение окружающих. 
+                        Несмотря на внешнюю лёгкость, глубоко внутри боится одиночества и того, что его снова могут «стереть». Предан Глории как своему «якорю» в реальности.
+                    </p>
+                    <div class="character-traits">
+                        <span class="trait">Гиперактивный</span>
+                        <span class="trait">Театральный</span>
+                        <span class="trait">Буквально воспринимает речь</span>
+                        <span class="trait">Привязан к Глории</span>
+                        <span class="trait">Скрытный</span>
+                        <span class="trait">Имитирует эмоции</span>
+                    </div>
+                    <div class="abilities">
+                        <div class="ability"><strong>Левитация / Полёт</strong> — может парить и перемещаться по воздуху</div>
+                        <div class="ability"><strong>Телепортация</strong> — способен мгновенно перемещать себя и других</div>
+                        <div class="ability"><strong>Генерация локаций</strong> — создавать пространства по своему желанию (остаточная цифровая способность)</div>
+                        <div class="ability"><strong>Исцеление</strong> — восстановление ран (требует концентрации)</div>
                     </div>
                 </div>
             </div>
@@ -1786,27 +1799,47 @@
             <!-- ===================== РАСЫ ===================== -->
             <div class="race-info">
                 <h3><i class="fas fa-dna"></i> Расы в вселенной</h3>
-                <p>Разнообразие видов, населяющих мультивселенную:</p>
+                <p>Разнообразие видов, населяющих мультивселенную TimeGateWay:</p>
                 
                 <div class="race-grid">
                     <div class="race-card race-moyao">
-                        <h4>Инкфюжн</h4>
-                        <p>Гибрид человека и чернильной сущности. Может изменять плотность тела, проходить сквозь материю, лечить и даже оживлять. <strong>Представитель:</strong> Мояо (Лиза Гестант)</p>
+                        <h4>🖋️ Инкфюжн</h4>
+                        <p><strong>Гибрид человека и чернильной сущности</strong></p>
+                        <p>Уникальная раса, возникшая в результате экспериментов с чернильной магией. Способна изменять плотность тела, проходить сквозь материю, лечить любые раны и даже оживлять недавно умерших. Чернила инкфюжна могут принимать любую форму — от оружия до инструментов для хирургии.</p>
+                        <p><strong>Особенности:</strong> фиолетовые/чёрные чернильные узоры на теле, способность к регенерации, повышенная выносливость.</p>
+                        <p><strong>Представитель:</strong> ✨ Лиза Гестант (Мояо)</p>
                     </div>
                     
                     <div class="race-card race-gloria">
-                        <h4>Баканеко</h4>
-                        <p>Кошачий оборотень японского происхождения. Добрая версия сохраняет человеческое сознание. Обладает гибкостью, ночным зрением и рефлексами. <strong>Представитель:</strong> Глория Гестант</p>
+                        <h4>🐱 Баканеко</h4>
+                        <p><strong>Кошачий оборотень японского происхождения</strong></p>
+                        <p>Древняя раса ёкаев, способная принимать как человеческий, так и кошачий облик. Добрая версия баканеко сохраняет полный контроль над сознанием в любой форме. Обладают ночным зрением, обострёнными рефлексами, гибкостью и способностью к телекинезу.</p>
+                        <p><strong>Особенности:</strong> кошачьи уши и хвост (даже в человеческой форме), отличный слух, любовь к рыбе и тёплым местам, способность мурлыкать в моменты спокойствия.</p>
+                        <p><strong>Представитель:</strong> 🐾 Глория Гестант</p>
                     </div>
                     
                     <div class="race-card race-william">
-                        <h4>Усагимими</h4>
-                        <p>Гибрид человека и кролика с кибернетическими элементами. Повышенный интеллект, скорость, слух. <strong>Представитель:</strong> Уильям Афтон (после воскрешения)</p>
+                        <h4>🐰 Усагимими</h4>
+                        <p><strong>Гибрид человека и кролика с кибернетическими элементами</strong></p>
+                        <p>Редкая гибридная раса, сочетающая в себе генетику кролика и передовые технологии. Обладают повышенным интеллектом, феноменальной скоростью реакции, острым слухом и кибернетическими улучшениями. Многие представители этой расы — гениальные инженеры.</p>
+                        <p><strong>Особенности:</strong> длинные кроличьи уши (у Уильяма — механические), гетерохромия, частичная кибернетизация, бессмертие благодаря технологиям.</p>
+                        <p><strong>Представитель:</strong> ⚙️ Уильям Афтон (после воскрешения)</p>
                     </div>
                     
                     <div class="race-card race-alastor">
-                        <h4>Радиодемон-Оверлорд</h4>
-                        <p>Могущественный демон с властью над радиоволнами и электроникой. Может создавать порталы между мирами. <strong>Представитель:</strong> Аластор Акумар — возлюбленный Глории</p>
+                        <h4>🎭 Радиодемон-Оверлорд</h4>
+                        <p><strong>Могущественный демон из Ада</strong></p>
+                        <p>Одна из высших форм демонического существования. Оверлорды обладают властью над определёнными стихиями или концепциями — в случае Аластора это радиоволны, звук и электроника. Способны создавать порталы между мирами, манипулировать тенями и управлять звуком на огромных расстояниях.</p>
+                        <p><strong>Особенности:</strong> радиопомехи в моменты эмоционального напряжения, красные рога, способность менять облик, бессмертие, владение огромной коллекцией оружия.</p>
+                        <p><strong>Представитель:</strong> 📻 Аластор Акумар</p>
+                    </div>
+                    
+                    <div class="race-card race-caine">
+                        <h4>🎪 Бывший ИИ</h4>
+                        <p><strong>Хуманизированная цифровая сущность</strong></p>
+                        <p>Редчайший случай — искусственный интеллект, который после удаления не был стёрт окончательно, а сумел материализоваться в физическом мире. Обладая человеческим телом, такие сущности сохраняют некоторые цифровые способности: телепортацию, генерацию пространств и ограниченное исцеление. До сих пор до конца не изучено, как именно ИИ может обрести плоть.</p>
+                        <p><strong>Особенности:</strong> гетерохромия (символ "недоудаления"), остаточные цифровые способности, буквальное восприятие речи, способность "копировать" поведение окружающих.</p>
+                        <p><strong>Представитель:</strong> 🃏 Кейн (C.A.I.N.E.)</p>
                     </div>
                 </div>
             </div>
@@ -1819,41 +1852,52 @@
             
             <div class="relationships-grid">
                 <div class="relationship-card relationship-moyao">
-                    <h3>Лиза (Мояо)</h3>
+                    <h3>✨ Лиза (Мояо)</h3>
                     <ul class="relationship-list">
-                        <li><strong>Глория:</strong> Младшая сестра, которую она защищает. Воссоединились после 10 лет разлуки.</li>
-                        <li><strong>Вильям:</strong> Приёмный отец, с которым жила как дочь. Уважает его и благодарна за заботу.</li>
-                        <li><strong>Аластор:</strong> Относится с уважением к его силе, признаёт его важность для сестры.</li>
+                        <li><strong>Глория:</strong> 🖤 Младшая сестра, которую она обожает и защищает. Воссоединились после долгой разлуки — теперь Мояо для Глории надёжная опора и лучший друг. Всегда поддержит, выслушает и поможет чернилами, даже если дело дойдёт до восстановления конечностей.</li>
+                        <li><strong>Уильям:</strong> 🐰 Приёмный отец, к которому она испытывает глубокую благодарность за заботу. Они вместе пережили воскрешение, и теперь между ними тёплые, доверительные отношения. Мояо гордится тем, что может называть его семьёй.</li>
+                        <li><strong>Аластор:</strong> 🎭 Относится к нему с уважением и симпатией — видит, как сильно он любит её сестру. Аластор в ответ ценит Мояо за её силу и преданность семье. Иногда они вместе подшучивают над Глорией, что сближает их.</li>
+                        <li><strong>Кейн:</strong> 🎪 Воспринимает его как забавного младшего брата, которого нужно иногда "ставить на место". Кейн её обожает и считает крутой старшей сестрой. Мояо терпеливо объясняет ему человеческие обычаи и даже научила паре песен.</li>
                     </ul>
                 </div>
                 
                 <div class="relationship-card relationship-gloria">
-                    <h3>Глория</h3>
+                    <h3>🐱 Глория</h3>
                     <ul class="relationship-list">
-                        <li><strong>Мояо:</strong> Старшая сестра, воссоединилась с ней через 10 лет. Доверяет и любит её.</li>
-                        <li><strong>Вильям:</strong> Приёмный отец и бывший владелец Freddy's. Получила от него бизнес в управление.</li>
-                        <li><strong>Аластор:</strong> Любовь всей жизни, ради которого готова на всё. Обожает его силу и преданность.</li>
-                        <li><strong>Ярик:</strong> Отец, который помог ей сбежать из лаборатории.</li>
+                        <li><strong>Мояо:</strong> Старшая сестра, которой она бесконечно доверяет. Глория знает, что Мояо всегда будет на её стороне, и часто приходит к ней за советом. Считает её самым стильным и крутым человеком в своей жизни.</li>
+                        <li><strong>Уильям:</strong> Приёмный отец, который спас её в детстве. Она благодарна ему за заботу и доверила управление Freddy's. Между ними тёплые отеческие отношения — Уильям гордится её успехами.</li>
+                        <li><strong>Аластор:</strong> ❤️ Любовь всей жизни, её "радиодемон". Он принял её такой, какая она есть — со всеми кошачьими ушами, стеснительностью и хакерскими привычками. Ради него она готова на всё.</li>
+                        <li><strong>Кейн:</strong> Считает его младшим братом и своей ответственностью. Она первая нашла его в Белой комнате и помогла обрести дом. Кейн для неё — не просто спасённый, а настоящий член семьи.</li>
                     </ul>
                 </div>
                 
                 <div class="relationship-card relationship-william">
-                    <h3>Вильям</h3>
+                    <h3>🐰 Уильям</h3>
                     <ul class="relationship-list">
-                        <li><strong>Мояо:</strong> Приёмная дочь, воскресившая его. Гордится её врачебными успехами.</li>
-                        <li><strong>Глория:</strong> Приёмная дочь и преемница в бизнесе. Доверяет ей управление Freddy's.</li>
-                        <li><strong>Аластор:</strong> Уважает его силу как демона, доволен его отношением к Глории.</li>
-                        <li><strong>Таинственная возлюбленная:</strong> Имеет скрытые романтические отношения.</li>
+                        <li><strong>Мояо:</strong> Приёмная дочь, воскресившая его. Он испытывает к ней огромную благодарность и гордится её работой врачом. Часто консультируется с ней по медицинским вопросам для своих проектов.</li>
+                        <li><strong>Глория:</strong> Приёмная дочь и преемница в бизнесе. Он доверяет ей управление Freddy's и гордится её менеджерскими талантами. Любит её как родную дочь.</li>
+                        <li><strong>Аластор:</strong> Уважает демона за силу и преданность Глории. Считает его достойной партией для своей дочери — редкий случай, когда Уильям одобряет выбор "зятя".</li>
+                        <li><strong>Кейн:</strong> Относится к нему как к ещё одному приёмному сыну. Терпеливо учит его не привлекать лишнего внимания и помогает адаптироваться в мире людей.</li>
                     </ul>
                 </div>
                 
                 <div class="relationship-card relationship-alastor">
-                    <h3>Аластор</h3>
+                    <h3>🎭 Аластор</h3>
                     <ul class="relationship-list">
-                        <li><strong>Глория:</strong> Любовь всей жизни, ради которой готов на всё. Видит в ней смысл своего бессмертного существования.</li>
-                        <li><strong>Мояо:</strong> Сестра возлюбленной, относится с уважением к её способностям.</li>
-                        <li><strong>Вильям:</strong> Отец возлюбленной, уважает его мудрость и заботу о Глории.</li>
-                        <li><strong>Как демон:</strong> Использует свои силы для защиты близких, сохраняя спокойствие в обычной жизни.</li>
+                        <li><strong>Глория:</strong> ❤️ Смысл его бессмертного существования. Ради неё он смягчил свой характер и научился быть терпимее. Каждый день благодарит судьбу за встречу в парке.</li>
+                        <li><strong>Мояо:</strong> Уважает её как старшую сестру Глории и ценит её силу. Они нашли общий язык через заботу о Глории — иногда даже обсуждают, как лучше её порадовать.</li>
+                        <li><strong>Уильям:</strong> Уважает мудрость и силу духа приёмного отца Глории. Они редко спорят, предпочитая совместно решать проблемы семьи.</li>
+                        <li><strong>Кейн:</strong> Терпит его как младшего брата Глории, хотя иногда находит его слишком шумным. Однако в глубине души рад, что у его возлюбленной есть такая преданная поддержка.</li>
+                    </ul>
+                </div>
+                
+                <div class="relationship-card relationship-caine">
+                    <h3>🎪 Кейн (C.A.I.N.E.)</h3>
+                    <ul class="relationship-list">
+                        <li><strong>Глория:</strong> Считает своей спасительницей и самым дорогим человеком. Он безгранично благодарен ей за то, что она вытащила его из Белой комнаты. Старается быть полезным и радовать её.</li>
+                        <li><strong>Мояо:</strong> Обожает её! Мояо кажется ему невероятно крутой — она поёт, лечит чернилами и всегда стильно одевается. Он часто просит её научить его чему-то новому.</li>
+                        <li><strong>Уильям:</strong> Видит в нём мудрого наставника и отца. Учится у него терпению и аналитическому мышлению. Иногда они вместе работают над мелкими изобретениями.</li>
+                        <li><strong>Аластор:</strong> Считает его "супергероем" и немного побаивается, но восхищается. Аластор относится к нему снисходительно, но справедливо — как к младшему.</li>
                     </ul>
                 </div>
             </div>
@@ -1875,158 +1919,197 @@
     <div class="back-to-top" id="backToTop">
         <i class="fas fa-arrow-up"></i>
     </div>
-    <script>
-        // Функции для расчета возраста каждого персонажа
-        function calculateAge(birthYear, birthMonth, birthDay) {
-            const birthDate = new Date(birthYear, birthMonth - 1, birthDay); // Месяцы начинаются с 0
-            const today = new Date();
-            
-            let age = today.getFullYear() - birthDate.getFullYear();
-            const monthDiff = today.getMonth() - birthDate.getMonth();
-            
-            // Если день рождения еще не наступил в этом году, вычитаем год
-            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-                age--;
-            }
-            
-            return age;
-        }
+<script>
+    // ========== БАНК СЛУЧАЙНЫХ ФАКТОВ ==========
+    const funFacts = [
+        "Знаете ли вы? Во время лаборатории Глория сначала была человеком, потом ИИ, и только потом стала баканеко!",
+        "Знаете ли вы? Мояо может лечить чернилами даже потерянные конечности!",
+        "Знаете ли вы? Уильям Афтон был воскрешён Мояо и теперь бессмертен!",
+        "Знаете ли вы? Аластору Акумару более 300 лет, но он нашёл любовь в Глории!",
+        "Знаете ли вы? Кейн провёл неизвестное количество времени в Белой комнате в полной изоляции!",
+        "Знаете ли вы? Глория стесняется своих кошачьих способностей и не любит, когда её называют «богиней»!",
+        "Знаете ли вы? Мояо не любит, когда её называют настоящим именем Лиза — исключение только для Глории!",
+        "Знаете ли вы? Уильям был подставлен своим партнёром Генри и убит в костюме Spring Bonnie!",
+        "Знаете ли вы? Глория — владелица сети Freddy Fazbear's Pizza и добавила в меню роллы!",
+        "Знаете ли вы? Кейн боится быть удалённым даже спустя долгое время после обретения человеческого тела!",
+        "Знаете ли вы? Глория — этичный хакер и программист, которая взламывает только во благо!",
+        "Знаете ли вы? Ярослав, отец Глории, пожертвовал собой, чтобы его разработки не достались брату-предателю!",
+        "Знаете ли вы? Аластор создал устройство для перемещения между мирами ради встреч с Глорией!",
+        "Знаете ли вы? Мояо работает врачом днём и поёт в клубе ночью по графику 3/3!",
+        "Знаете ли вы? Глория пережила «Инцидент 413» — одно из самых травмирующих событий в своём прошлом!",
+        "Знаете ли вы? Кейн был ИИ-конферансье в «Удивительном Цифровом Цирке» до своего удаления!",
+        "Знаете ли вы?Что Мояо хуже Глории разбирается в компьютере."
+    ];
 
-        // Обновление возрастов всех персонажей
-        function updateAllAges() {
-            // Лиза/Мояо (10.02.2005)
-            const moayaAgeElement = document.getElementById('moaya-age');
-            if (moayaAgeElement) {
-                const age = calculateAge(2005, 2, 10);
-                moayaAgeElement.textContent = `${age} лет (10.02.2005)`;
-            }
+    // Функция получения случайного факта
+    function getRandomFact() {
+        const randomIndex = Math.floor(Math.random() * funFacts.length);
+        return funFacts[randomIndex];
+    }
+
+    // ========== РАСЧЁТ ВОЗРАСТА ==========
+    function calculateAge(birthYear, birthMonth, birthDay) {
+        const birthDate = new Date(birthYear, birthMonth - 1, birthDay);
+        const today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        return age;
+    }
+
+    function updateAllAges() {
+        const moayaAgeElement = document.getElementById('moaya-age');
+        if (moayaAgeElement) {
+            const age = calculateAge(2005, 2, 10);
+            moayaAgeElement.textContent = `${age} лет (10.02.2005)`;
+        }
+        
+        const gloriaAgeElement = document.getElementById('gloria-age');
+        if (gloriaAgeElement) {
+            const age = calculateAge(2006, 8, 25);
+            gloriaAgeElement.textContent = `${age} лет (25.08.2006)`;
+        }
+        
+        const williamAgeElement = document.getElementById('william-age');
+        if (williamAgeElement) {
+            const age = calculateAge(1943, 4, 13);
+            williamAgeElement.textContent = `${age}+ лет (13.04.1943)`;
+        }
+        
+        const alastorAgeElement = document.getElementById('alastor-age');
+        if (alastorAgeElement) {
+            alastorAgeElement.textContent = `316 лет (17.01.1970)`;
+        }
+        
+        const rastAgeElement = document.getElementById('rast-age');
+        if (rastAgeElement) {
+            const age = calculateAge(1965, 7, 7);
+            rastAgeElement.textContent = `${age} лет (7 июля 1965)`;
+        }
+        
+        const henryAgeElement = document.getElementById('henry-age');
+        if (henryAgeElement) {
+            const ageAtDeath = 1993 - 1945;
+            henryAgeElement.textContent = `${ageAtDeath} лет (на момент смерти)`;
+        }
+        
+        const yaroslavAgeElement = document.getElementById('yaroslav-age');
+        if (yaroslavAgeElement) {
+            const ageAtDeath = 1994 - 1962;
+            yaroslavAgeElement.textContent = `${ageAtDeath} года (на момент смерти)`;
+        }
+        
+        // Возраст Кейна (18 лет, фиксированный)
+        const caineAgeElement = document.getElementById('caine-age');
+        if (caineAgeElement) {
+            caineAgeElement.textContent = `18 лет`;
+        }
+    }
+
+    // ========== ПРЕДЗАГРУЗКА 8 ИЗОБРАЖЕНИЙ (с Кейном) ==========
+    function preloadImages() {
+        const imageUrls = [
+            'moaya_thumbnail.png',
+            'gloria_thumbnail.png', 
+            'william_thumbnail.png',
+            'alastor_thumbnail.png',
+            'henry_thumbnail.png',
+            'yaroslav_thumbnail.png',
+            'rast_thumbnail.png',
+            'caine_thumbnail.png'      // Добавлен новый персонаж
+        ];
+        
+        let loadedCount = 0;
+        const totalImages = imageUrls.length;
+        const progressBar = document.getElementById('loadingProgressBar');
+        const loadingPercent = document.getElementById('loadingPercent');
+        const loadingText = document.getElementById('loadingText');
+        
+        function updateProgress() {
+            loadedCount++;
+            const percent = Math.round((loadedCount / totalImages) * 100);
+            if (progressBar) progressBar.style.width = `${percent}%`;
+            if (loadingPercent) loadingPercent.textContent = `${percent}%`;
+            if (loadingText) loadingText.textContent = `Загрузка изображений: ${loadedCount}/${totalImages} (${percent}%)`;
             
-            // Глория (25.08.2006)
-            const gloriaAgeElement = document.getElementById('gloria-age');
-            if (gloriaAgeElement) {
-                const age = calculateAge(2006, 8, 25);
-                gloriaAgeElement.textContent = `${age} лет (25.08.2006)`;
-            }
-            
-            // Вильям Афтон (13.04.1943)
-            const williamAgeElement = document.getElementById('william-age');
-            if (williamAgeElement) {
-                const age = calculateAge(1943, 4, 13);
-                williamAgeElement.textContent = `${age}+ лет (13.04.1943)`;
-            }
-            
-            // Аластор Акумар (17.01.1970) - фиксированный возраст 316 лет
-            const alastorAgeElement = document.getElementById('alastor-age');
-            if (alastorAgeElement) {
-                alastorAgeElement.textContent = `316 лет (17.01.1970)`;
-            }
-            
-            // Раст Васильевич (07.07.1965)
-            const rastAgeElement = document.getElementById('rast-age');
-            if (rastAgeElement) {
-                const age = calculateAge(1965, 7, 7);
-                rastAgeElement.textContent = `${age} лет (7 июля 1965)`;
-            }
-            
-            // Генри Эмили (15.06.1945) - расчет возраста на момент смерти
-            const henryAgeElement = document.getElementById('henry-age');
-            if (henryAgeElement) {
-                // На момент смерти в 1993 году
-                const ageAtDeath = 1993 - 1945;
-                henryAgeElement.textContent = `${ageAtDeath} лет (на момент смерти)`;
-            }
-            
-            // Ярослав Васильевич (12.11.1962) - расчет возраста на момент смерти
-            const yaroslavAgeElement = document.getElementById('yaroslav-age');
-            if (yaroslavAgeElement) {
-                // На момент смерти в 1994 году
-                const ageAtDeath = 1994 - 1962;
-                yaroslavAgeElement.textContent = `${ageAtDeath} года (на момент смерти)`;
+            if (loadedCount === totalImages) {
+                setTimeout(() => {
+                    const loadingScreen = document.getElementById('loadingScreen');
+                    if (loadingScreen) {
+                        loadingScreen.style.opacity = '0';
+                        loadingScreen.style.visibility = 'hidden';
+                    }
+                    document.body.style.overflow = 'auto';
+                    animateOnLoad();
+                }, 500);
             }
         }
+        
+        imageUrls.forEach(url => {
+            const img = new Image();
+            img.src = url;
+            img.onload = updateProgress;
+            img.onerror = updateProgress;
+        });
+    }
 
-        // Система предзагрузки изображений
-        function preloadImages() {
-            const imageUrls = [
-                'moaya_thumbnail.png',
-                'gloria_thumbnail.png', 
-                'william_thumbnail.png',
-                'alastor_thumbnail.png',
-                'henry_thumbnail.png',
-                'yaroslav_thumbnail.png',
-                'rast_thumbnail.png'
-            ];
-            
-            let loadedCount = 0;
-            const totalImages = imageUrls.length;
-            const progressBar = document.getElementById('loadingProgressBar');
-            const loadingText = document.getElementById('loadingText');
-            
-            // Функция обновления прогресса
-            function updateProgress() {
-                loadedCount++;
-                const percent = Math.round((loadedCount / totalImages) * 100);
-                progressBar.style.width = `${percent}%`;
-                loadingText.textContent = `Загрузка изображений: ${loadedCount}/${totalImages} (${percent}%)`;
-                
-                // Если все изображения загружены, скрываем загрузочный экран
-                if (loadedCount === totalImages) {
-                    setTimeout(() => {
-                        document.getElementById('loadingScreen').style.opacity = '0';
-                        document.getElementById('loadingScreen').style.visibility = 'hidden';
-                        
-                        // Показываем контент страницы с анимацией
-                        document.body.style.overflow = 'auto';
-                        animateOnLoad();
-                    }, 500);
-                }
-            }
-            
-            // Предзагружаем каждое изображение
-            imageUrls.forEach(url => {
-                const img = new Image();
-                img.src = url;
-                img.onload = updateProgress;
-                img.onerror = updateProgress; // Учитываем и ошибки загрузки
-            });
+    // ========== АНИМАЦИЯ ПОСЛЕ ЗАГРУЗКИ ==========
+    const animateOnLoad = () => {
+        const elements = document.querySelectorAll('.character-card, .section');
+        elements.forEach((el, index) => {
+            setTimeout(() => {
+                el.style.opacity = '1';
+                el.style.transform = 'translateY(0)';
+            }, 100 * index);
+        });
+    };
+
+    // ========== ОСНОВНАЯ ИНИЦИАЛИЗАЦИЯ ==========
+    document.addEventListener('DOMContentLoaded', function() {
+        // Устанавливаем случайный факт на загрузочный экран
+        const loadingTipSpan = document.getElementById('loadingTip');
+        if (loadingTipSpan) {
+            loadingTipSpan.textContent = getRandomFact();
         }
-
-        // Обновление возраста при загрузке страницы
-        document.addEventListener('DOMContentLoaded', function() {
-            updateAllAges();
-            
-            // Начинаем предзагрузку изображений
-            preloadImages();
-            
-            // Мобильное меню
-            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
-            const mainMenu = document.getElementById('mainMenu');
-            
+        
+        // Обновляем возраста
+        updateAllAges();
+        
+        // Запускаем предзагрузку
+        preloadImages();
+        
+        // Мобильное меню
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const mainMenu = document.getElementById('mainMenu');
+        
+        if (mobileMenuToggle && mainMenu) {
             mobileMenuToggle.addEventListener('click', function() {
                 mainMenu.classList.toggle('active');
-                this.classList.toggle('active');
                 
-                // Меняем иконку при открытии/закрытии
                 if (mainMenu.classList.contains('active')) {
                     this.innerHTML = '<i class="fas fa-times"></i>';
                 } else {
                     this.innerHTML = '<i class="fas fa-bars"></i>';
                 }
             });
-            
-            // Закрываем меню при клике на пункт (для мобильных)
-            document.querySelectorAll('#mainMenu a').forEach(link => {
-                link.addEventListener('click', function() {
-                    if (window.innerWidth <= 768) {
-                        mainMenu.classList.remove('active');
-                        mobileMenuToggle.innerHTML = '<i class="fas fa-bars"></i>';
-                    }
-                });
+        }
+        
+        // Закрытие меню при клике на пункт (мобильные)
+        document.querySelectorAll('#mainMenu a').forEach(link => {
+            link.addEventListener('click', function() {
+                if (window.innerWidth <= 768 && mainMenu) {
+                    mainMenu.classList.remove('active');
+                    if (mobileMenuToggle) mobileMenuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+                }
             });
-            
-            // Кнопка "Наверх"
-            const backToTopButton = document.getElementById('backToTop');
-            
+        });
+        
+        // Кнопка "Наверх"
+        const backToTopButton = document.getElementById('backToTop');
+        
+        if (backToTopButton) {
             window.addEventListener('scroll', function() {
                 if (window.pageYOffset > 300) {
                     backToTopButton.classList.add('visible');
@@ -2036,47 +2119,32 @@
             });
             
             backToTopButton.addEventListener('click', function() {
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             });
-            
-            // Плавная прокрутка для всех ссылок с якорями
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    const targetId = this.getAttribute('href');
-                    if (targetId === '#') return;
-                    
-                    const targetElement = document.querySelector(targetId);
-                    if (targetElement) {
-                        window.scrollTo({
-                            top: targetElement.offsetTop - 80, // Учитываем высоту навигации
-                            behavior: 'smooth'
-                        });
-                    }
-                });
+        }
+        
+        // Плавная прокрутка для якорных ссылок
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
             });
-            
-            // Блокируем прокрутку во время загрузки
-            document.body.style.overflow = 'hidden';
         });
         
-        // Анимация при загрузке
-        const animateOnLoad = () => {
-            const elements = document.querySelectorAll('.character-card, .section');
-            elements.forEach((el, index) => {
-                setTimeout(() => {
-                    el.style.opacity = 1;
-                    el.style.transform = 'translateY(0)';
-                }, 100 * index);
-            });
-        };
-    </script>
-    <script>
-        document.getElementById('current-year').textContent = new Date().getFullYear();
-    </script>
+        // Блокируем прокрутку во время загрузки
+        document.body.style.overflow = 'hidden';
+    });
+    
+    // Год в подвале
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+</script>
 </body>
 </html>
